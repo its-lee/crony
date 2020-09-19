@@ -8,12 +8,11 @@ from crony.analyser import CronTabSource, analyse
 from crony.manifest import __manifest__
 
 # https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
-# TODO: be more permissive here?
 def _valid_datetime(s):
     try:
         return datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
     except ValueError:
-        raise argparse.ArgumentTypeError(f"Not a valid datetime: '{s}'.")
+        raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
 def _parse_args(parser):
     args = parser.parse_args()
