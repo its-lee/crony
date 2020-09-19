@@ -7,7 +7,16 @@ import argparse
 from crony.analyser import CronTabSource, analyse
 from crony.manifest import __manifest__
 
-# https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
+# todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
+
+# todo: test:
+# general behaviour in all cases
+# time equal to the end point
+#   https://pypi.org/project/croniter/#iterating-over-a-range-using-cron
+#   range = croniter_range(args.begin, args.end, ret_type=datetime.datetime)
+#   len(range)
+
+# From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
     try:
         return datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
@@ -17,32 +26,27 @@ def _valid_datetime(s):
 def _parse_args(parser):
     args = parser.parse_args()
 
-    crontab = None
+    args.crontab = None
     if sys.__stdin__.isatty():
         # Resolve some ambiguity in the case that both crontab references are passed:
         if args.input and args.user:
             parser.error("Only one of 'input' or 'user' should be passed")
 
         if args.input:
-            crontab = CronTabSource('input', tabfile=args.input)
+            args.crontab = CronTabSource('input', tabfile=args.input)
         elif args.user:
-            crontab = CronTabSource(f"user:{args.user}", user=args.user)
+            args.crontab = CronTabSource(f"user:{args.user}", user=args.user)
         else:
             # In the case of none of them being passed, we default to the current user.
-            crontab = CronTabSource('user:current', user=True)
+            args.crontab = CronTabSource('user:current', user=True)
     else:
         # If we're not a tty, then try to read a crontab from stdin.
-        crontab = CronTabSource('stdin', tab=sys.stdin.read())
+        args.crontab = CronTabSource('stdin', tab=sys.stdin.read())
 
-    if not crontab:
+    if not args.crontab:
         parser.error("A reference to a crontab must be passed")
 
-    return {
-        'crontab': crontab,
-        'begin': args.begin,
-        'end': args.end,
-        'exclude_metadata': args.exclude_metadata
-    }
+    return args
 
 def main():
     try:
@@ -57,10 +61,14 @@ def main():
             version=__manifest__['pkgname'] + ' ' + __manifest__['version'],
             exclude_metavar=False
         )
-        add_argument('--exclude-metadata', '-m', 
-            help="Exclude metadata from the output",
+        add_argument('--exclude-header', '-m', 
+            help="Exclude the header from the output",
             action='store_true'
         )
+        add_argument('--exclude-occurrences', '-m', 
+            help="Exclude occurrences from the output",
+            action='store_true'
+        )        
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
         add_argument('--begin', '-b',
             help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime",
@@ -77,8 +85,8 @@ def main():
             help="The user whose crontab is to be analysed"
         )
 
-        parsed_args = _parse_args(parser)
-        analyse(**parsed_args)
+        kwargs = vars(_parse_args(parser))
+        analyse(**kwargs)
 
     except KeyboardInterrupt:
         sys.exit(0)
