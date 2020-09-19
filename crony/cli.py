@@ -18,6 +18,14 @@ import crony.manifest
 # todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
 
 
+
+# travis ci:
+# follow:
+#  - https://docs.travis-ci.com/user/tutorial/
+#  - https://docs.travis-ci.com/user/languages/python/#dependency-management
+# if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
+
+
 # todo: test:
 # all options
 # log level
