@@ -21,12 +21,32 @@ import crony.manifest
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
+    """Convert datetime-typed argparse args to datetime.datetime
+
+    Args:
+        s (str): A datetime str passed to argparse
+
+    Raises:
+        argparse.ArgumentTypeError: Raised on invalid datetime
+
+    Returns:
+        datetime.datetime: The parsed datetime
+    """
     try:
         return datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
 def parse_crontab(parser, pargs):
+    """Parse crontab-related args
+
+    Args:
+        parser (argparse.ArgumentParser): The argument parser
+        pargs (dict): The parsed arguments
+
+    Returns:
+        tuple: A tuple of (human readable crontab source, crontab.CronTab)
+    """
     if sys.__stdin__.isatty():
         # Resolve some ambiguity in the case that both crontab references are passed:
         if pargs['input'] and pargs['user']:
@@ -45,6 +65,11 @@ def parse_crontab(parser, pargs):
         return ('stdin', CronTab(tab=sys.stdin.read()))
 
 def _run(parser):
+    """Run the program based on parsed args
+
+    Args:
+        parser (argparse.ArgumentParser): The argument parser
+    """
     # Parse args:
     pargs = vars(parser.parse_args())
     (pargs['source'], pargs['crontab']) = parse_crontab(parser, pargs)
@@ -68,6 +93,8 @@ def _run(parser):
     
 
 def main():
+    """The application entry point
+    """
     try:
         parser = argparse.ArgumentParser(description=crony.manifest.description)
         def arg(*args, exclude_metavar=True, **kwargs):
