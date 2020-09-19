@@ -9,8 +9,6 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-_logger = logging.getLogger(__name__) 
-
 # todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
 # todo: fixes: crontab.jobs - Iterate through all jobs, this includes disabled (commented out) cron jobs.
 # we'll want to be able to include / exclude commented out jobs - default to exclude.
@@ -21,12 +19,21 @@ _logger = logging.getLogger(__name__)
 
 
 # todo: test:
+# all options
+# log level
 # general behaviour in all cases
 # time equal to the end point
 #   from croniter import croniter_range
 #   https://pypi.org/project/croniter/#iterating-over-a-range-using-cron
 #   range = croniter_range(args.begin, args.end, ret_type=datetime.datetime)
 #   len(range)
+
+_logger = logging.getLogger(__name__) 
+
+# Initialise log levels
+LOG_LEVELS = {
+    'v' * (i + 1): v for i, v in enumerate([ 'WARNING', 'INFO', 'DEBUG' ])
+}
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
@@ -46,22 +53,16 @@ def _valid_datetime(s):
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
-def parse_crontab(parser, pargs):
+def parse_crontab(pargs):
     """Parse crontab-related args
 
     Args:
-        parser (argparse.ArgumentParser): The argument parser
         pargs (dict): The parsed arguments
 
     Returns:
         tuple: A tuple of (human readable crontab source, crontab.CronTab)
     """
     if sys.__stdin__.isatty():
-        # Resolve some ambiguity in the case that both crontab references are passed:
-        if pargs['input'] and pargs['user']:
-            parser.error("Only one of 'input' or 'user' should be passed")
-            return None
-
         if pargs['input']:
             return ('input', CronTab(tabfile=pargs['input']))
         elif pargs['user']:
@@ -73,15 +74,33 @@ def parse_crontab(parser, pargs):
         # If we're not a tty, then try to read a crontab from stdin.
         return ('stdin', CronTab(tab=sys.stdin.read()))
 
-def _run(parser):
+def _init_logging(pargs):
+    """Initialise logging
+
+    Args:
+        pargs (dict): The parsed args
+    """
+    root_logger = logging.getLogger()
+    
+    # Set up the stderr log handler:
+    formatter = logging.Formatter('%(asctime)s | %(name)25s | %(levelname)5s | %(message)s')
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    root_logger.addHandler(handler)   
+
+    # Set the root/global log level - this can be configured by the user if need be:
+    log_level = [ v for k, v in LOG_LEVELS.items() if k in pargs and pargs[k] ]
+    log_level = log_level[0] if log_level else logging.ERROR
+    root_logger.setLevel(log_level[0])
+
+def _run(pargs):
     """Run the program based on parsed args
 
     Args:
-        parser (argparse.ArgumentParser): The argument parser
+        pargs (dict): The parsed args
     """
     # Parse args:
-    pargs = vars(parser.parse_args())
-    (pargs['source'], pargs['crontab']) = parse_crontab(parser, pargs)
+    (pargs['source'], pargs['crontab']) = parse_crontab(pargs)
 
     # Print the header if not excluded:
     if not pargs['exclude_header']:
@@ -106,27 +125,41 @@ def main():
     """
     try:
         parser = argparse.ArgumentParser(description=crony.manifest.description)
-        def arg(*args, exclude_metavar=True, **kwargs):
+        def arg(*args, exclude_metavar=True, group=None, **kwargs):
             if exclude_metavar:
                 kwargs['metavar'] = '\b'
-            parser.add_argument(*args, **kwargs)
+            to = group or parser
+            to.add_argument(*args, **kwargs)
 
+        # Version output:
         version = crony.manifest.pkgname + ' ' + crony.manifest.version
-        arg('--version', '-v', action='version', version=version, exclude_metavar=False)
+        arg('--version', '-V', action='version', version=version, exclude_metavar=False)
      
+        # Logging options:
+        logging_group = parser.add_mutually_exclusive_group()
+        for k, v in LOG_LEVELS.items():
+            arg(f"--{k}", default='', action='store_true', group=logging_group, help=f"Log at the {v.lower()} level")
+
+        # Time range:
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
         arg('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
         arg('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
 
-        arg('--file', '-f', help="The path to a crontab to be analysed")
-        arg('--user', '-u', help="The user whose crontab is to be analysed")
+        # Crontab reference - only allow 0 or 1 to remove any ambiguity:
+        crontab_group = parser.add_mutually_exclusive_group()
+        arg('--file', '-f', group=crontab_group, help="The path to a crontab to be analysed")
+        arg('--user', '-u', group=crontab_group, help="The user whose crontab is to be analysed")
 
+        # Analysis options:
         arg('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
 
+        # Output options:
         arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")  
 
-        _run(parser)
+        pargs = vars(parser.parse_args())
+        _init_logging(pargs)
+        _run(pargs)
 
     except KeyboardInterrupt:
         sys.exit(0)
