@@ -10,6 +10,13 @@ import crony.analyser
 import crony.manifest
 
 # todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
+# todo: fixes: crontab.jobs - Iterate through all jobs, this includes disabled (commented out) cron jobs.
+# we'll want to be able to include / exclude commented out jobs - default to exclude.
+# todo: travis unit tests + badge
+# todo: put required python versions in setup.py
+# todo: log when skipping invalid lines (and log why they're invalid)
+# todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
+
 
 # todo: test:
 # general behaviour in all cases
@@ -104,13 +111,18 @@ def main():
 
         version = crony.manifest.pkgname + ' ' + crony.manifest.version
         arg('--version', '-v', action='version', version=version, exclude_metavar=False)
-        arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
-        arg('--exclude-occurrences', '-m', action='store_true', help="Exclude occurrences from the output")        
+     
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
         arg('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
         arg('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+
         arg('--file', '-f', help="The path to a crontab to be analysed")
         arg('--user', '-u', help="The user whose crontab is to be analysed")
+
+        arg('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
+
+        arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
+        arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")  
 
         _run(parser)
 
