@@ -6,7 +6,7 @@ import argparse
 
 from crontab import CronTab
 
-from crony.analyser import analyse
+import crony.analyser
 import crony.manifest
 
 # todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
@@ -25,33 +25,23 @@ def _valid_datetime(s):
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
-def _parse_args(parser):
-    pargs = vars(parser.parse_args())
-
-    def set_crontab(source, **kwargs):
-        pargs['source'] = source
-        pargs['crontab'] = CronTab(**kwargs)
-
+def parse_crontab(parser, pargs):
     if sys.__stdin__.isatty():
         # Resolve some ambiguity in the case that both crontab references are passed:
         if pargs['input'] and pargs['user']:
             parser.error("Only one of 'input' or 'user' should be passed")
+            return None
 
         if pargs['input']:
-            set_crontab('input', tabfile=pargs['input'])
+            return ('input', CronTab(tabfile=pargs['input']))
         elif pargs['user']:
-            set_crontab(f"user:{pargs['user']}", user=pargs['user'])
+            return (f"user:{pargs['user']}", CronTab(user=pargs['user']))
         else:
             # In the case of none of them being passed, we default to the current user.
-            set_crontab('user:current', user=True)
+            return ('user:current', CronTab(user=True))
     else:
         # If we're not a tty, then try to read a crontab from stdin.
-        set_crontab('stdin', tab=sys.stdin.read())
-
-    if not 'crontab' in pargs:
-        parser.error("A reference to a crontab must be passed")
-
-    return pargs
+        return ('stdin', CronTab(tab=sys.stdin.read()))
 
 def main():
     try:
@@ -90,7 +80,9 @@ def main():
             help="The user whose crontab is to be analysed"
         )
 
-        analyse(**_parse_args(parser))
+        pargs = vars(parser.parse_args())
+        (pargs['source'], pargs['crontab']) = parse_crontab(parser, pargs)
+        crony.analyser.analyse(**pargs)
 
     except KeyboardInterrupt:
         sys.exit(0)
