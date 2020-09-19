@@ -14,6 +14,7 @@ import crony.manifest
 # todo: test:
 # general behaviour in all cases
 # time equal to the end point
+#   from croniter import croniter_range
 #   https://pypi.org/project/croniter/#iterating-over-a-range-using-cron
 #   range = croniter_range(args.begin, args.end, ret_type=datetime.datetime)
 #   len(range)
@@ -43,46 +44,48 @@ def parse_crontab(parser, pargs):
         # If we're not a tty, then try to read a crontab from stdin.
         return ('stdin', CronTab(tab=sys.stdin.read()))
 
+def _run(parser):
+    # Parse args:
+    pargs = vars(parser.parse_args())
+    (pargs['source'], pargs['crontab']) = parse_crontab(parser, pargs)
+
+    # Print the header if not excluded:
+    if not pargs['exclude_header']:
+        print(f"{pargs['source']}: {pargs['begin']} - {pargs['end']}")
+        print()
+
+    # Find jobs scheduled in the provided datetime range:
+    for job in crony.analyser.get_scheduled_jobs(**pargs):
+        # Output the job, with a format based on provided options
+        line = None
+        if pargs['exclude_occurrences']:
+            line = job['command']
+        else:
+            s = '' if job['occurrence'] == 1 else 's'
+            line = f"{job['command']} - ran {job['occurrence']} time{s}"
+
+        print(line)
+    
+
 def main():
     try:
         parser = argparse.ArgumentParser(description=crony.manifest.description)
-        def add_argument(*args, exclude_metavar=True, **kwargs):
+        def arg(*args, exclude_metavar=True, **kwargs):
             if exclude_metavar:
                 kwargs['metavar'] = '\b'
             parser.add_argument(*args, **kwargs)
 
-        add_argument('--version', '-v',
-            action='version',
-            version=crony.manifest.pkgname + ' ' + crony.manifest.version,
-            exclude_metavar=False
-        )
-        add_argument('--exclude-header', '-m', 
-            help="Exclude the header from the output",
-            action='store_true'
-        )
-        add_argument('--exclude-occurrences', '-m', 
-            help="Exclude occurrences from the output",
-            action='store_true'
-        )        
+        version = crony.manifest.pkgname + ' ' + crony.manifest.version
+        arg('--version', '-v', action='version', version=version, exclude_metavar=False)
+        arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
+        arg('--exclude-occurrences', '-m', action='store_true', help="Exclude occurrences from the output")        
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
-        add_argument('--begin', '-b',
-            help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime",
-            **dt
-        )
-        add_argument('--end', '-e',
-            help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime",
-            **dt
-        )
-        add_argument('--file', '-f',
-            help="The path to a crontab to be analysed"
-        )
-        add_argument('--user', '-u',
-            help="The user whose crontab is to be analysed"
-        )
+        arg('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        arg('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        arg('--file', '-f', help="The path to a crontab to be analysed")
+        arg('--user', '-u', help="The user whose crontab is to be analysed")
 
-        pargs = vars(parser.parse_args())
-        (pargs['source'], pargs['crontab']) = parse_crontab(parser, pargs)
-        crony.analyser.analyse(**pargs)
+        _run(parser)
 
     except KeyboardInterrupt:
         sys.exit(0)
