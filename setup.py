@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 # https://github.com/microsoft/vscode-recipes/tree/master/debugging%20python
 
 exec(open("./crony/manifest.py").read())
-manifest = locals().get('__manifest__')
+manifest = locals()
 
 setup(
     name = manifest['pkgname'],

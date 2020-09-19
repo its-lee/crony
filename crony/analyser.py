@@ -6,18 +6,11 @@ import logging
 from crontab import CronTab
 from croniter import croniter_range
 
-class CronTabSource:
-    def __init__(self, source, **kwargs):
-        self.source = source
-        self.crontab = CronTab(**kwargs)
-
 def _print_header(exclude_header, crontab, begin, end, **kwargs):
     if exclude_header:
         return
 
-    print(f"Source: {crontab.source}")
-    print(f"Begin: {begin}")
-    print(f"End: {end}")
+    print(f"{crontab.source}: {begin} - {end}")
     print()
 
 def _get_matching_jobs(crontab, begin, end, **kwargs):
