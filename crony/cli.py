@@ -9,6 +9,8 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
+_logger = logging.getLogger(__name__) 
+
 # todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
 # todo: fixes: crontab.jobs - Iterate through all jobs, this includes disabled (commented out) cron jobs.
 # we'll want to be able to include / exclude commented out jobs - default to exclude.
@@ -129,7 +131,7 @@ def main():
     except KeyboardInterrupt:
         sys.exit(0)
     except Exception:
-        logging.exception("An error has been encountered:")
+        _logger.exception("An error has been encountered:")
         sys.exit(1)
 
 if __name__ == '__main__':
