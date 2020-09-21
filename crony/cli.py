@@ -115,7 +115,7 @@ def _run(pargs):
 
     # Print the header if not excluded:
     if not pargs['exclude_header']:
-        print(f"{pargs['source']}: {pargs['begin']} - {pargs['end']}")
+        print(f"{pargs['source']}: {pargs['begin']} -> {pargs['end']}")
         print()
 
     # Find jobs scheduled in the provided datetime range:
