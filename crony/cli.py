@@ -134,15 +134,13 @@ def main():
     """
     try:
         parser = argparse.ArgumentParser(description=crony.manifest.description)
-        def arg(*args, exclude_metavar=True, group=None, **kwargs):
-            if exclude_metavar:
-                kwargs['metavar'] = '\b'
+        def arg(*args, group=None, **kwargs):
             to = group or parser
             to.add_argument(*args, **kwargs)
 
         # Version output:
         version = crony.manifest.pkgname + ' ' + crony.manifest.version
-        arg('--version', '-V', action='version', version=version, exclude_metavar=False)
+        arg('--version', '-V', action='version', version=version)
 
         # Logging options:
         logging_group = parser.add_mutually_exclusive_group()
