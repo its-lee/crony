@@ -5,7 +5,7 @@ import logging
 
 from crontab import CronTab
 
-_logger = logging.getLogger(__name__) 
+_logger = logging.getLogger(__name__)
 
 def get_scheduled_jobs(crontab=None, begin=None, end=None, include_disabled=True, **kwargs):
     """Find crontab jobs scheduled within the given time range
@@ -27,7 +27,7 @@ def get_scheduled_jobs(crontab=None, begin=None, end=None, include_disabled=True
             _logger.debug(f"Skipping a line as it is not valid")
             continue
 
-        if job.is_enabled() or include_disabled:
+        if not job.is_enabled() or include_disabled:
             _logger.debug(f"Skipping {job.command} as it is disabled")
             continue
 
