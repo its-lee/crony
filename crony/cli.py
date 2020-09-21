@@ -161,7 +161,7 @@ def main():
         arg('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
 
         # Output options:
-        arg('--exclude-header', '-h', action='store_true', help="Exclude the header from the output")
+        arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
 
         pargs = vars(parser.parse_args())
