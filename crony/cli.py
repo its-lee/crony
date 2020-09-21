@@ -9,6 +9,9 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
+# todo: print full crontab line on output (or maybe make this configurable?)
+# todo: anything else after playing around with?
+
 # todo: travis unit tests + badge
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
