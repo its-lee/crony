@@ -99,7 +99,7 @@ def _init_logging(pargs):
 
     # Set the root/global log level - this can be configured by the user if need be:
     log_level = [ v for k, v in LOG_LEVELS.items() if k in pargs and pargs[k] ]
-    log_level = log_level[0] if log_level else logging.ERROR
+    log_level = log_level[0] if log_level else [ logging.ERROR ]
     root_logger.setLevel(log_level[0])
 
 def _run(pargs):
