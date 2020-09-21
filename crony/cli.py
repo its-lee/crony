@@ -125,8 +125,8 @@ def _run(pargs):
         if pargs['exclude_occurrences']:
             line = job['command']
         else:
-            s = '' if job['occurrence'] == 1 else 's'
-            line = f"{job['command']} - ran {job['occurrence']} time{s}"
+            s = '' if job['occurrences'] == 1 else 's'
+            line = f"{job['command']} - ran {job['occurrences']} time{s}"
 
         print(line)
 
