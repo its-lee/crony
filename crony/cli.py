@@ -10,6 +10,7 @@ import crony.analyser
 import crony.manifest
 
 # todo: fix weird output format: 2020-09-21 18:35:03.52082
+# todo: make analyser output classy
 # todo: print full crontab line on output (or maybe make this configurable?)
 # todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
