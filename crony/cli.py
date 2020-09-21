@@ -10,6 +10,7 @@ import crony.analyser
 import crony.manifest
 
 # todo: print full crontab line on output (or maybe make this configurable?)
+# todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
 
 # todo: travis unit tests + badge
