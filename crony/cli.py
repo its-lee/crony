@@ -51,24 +51,21 @@ def _parse_args(parser):
 def main():
     try:
         parser = argparse.ArgumentParser(description=__manifest__['description'])
-        def add_argument(*args, exclude_metavar=True, **kwargs):
-            if exclude_metavar:
-                kwargs['metavar'] = '\b'
+        def add_argument(*args, **kwargs):
             parser.add_argument(*args, **kwargs)
 
         add_argument('--version', '-v',
             action='version',
-            version=__manifest__['pkgname'] + ' ' + __manifest__['version'],
-            exclude_metavar=False
+            version=__manifest__['pkgname'] + ' ' + __manifest__['version']
         )
-        add_argument('--exclude-header', '-m', 
+        add_argument('--exclude-header', '-m',
             help="Exclude the header from the output",
             action='store_true'
         )
-        add_argument('--exclude-occurrences', '-m', 
+        add_argument('--exclude-occurrences', '-m',
             help="Exclude occurrences from the output",
             action='store_true'
-        )        
+        )
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
         add_argument('--begin', '-b',
             help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime",
