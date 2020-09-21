@@ -9,14 +9,12 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: fixes: crontab.jobs - Iterate through all jobs, this includes disabled (commented out) cron jobs.
-# we'll want to be able to include / exclude commented out jobs - default to exclude.
 # todo: travis unit tests + badge
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
 # todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
 # todo: relative date formats might be good? https://stackoverflow.com/questions/39091969/parsing-human-readable-relative-times
-
+# todo: test all options
 
 # travis ci:
 # follow:
@@ -112,7 +110,13 @@ def _run(pargs):
 
     # Print the header if not excluded:
     if not pargs['exclude_header']:
-        print(f"{pargs['source']}: {pargs['begin']} -> {pargs['end']}")
+        additions = []
+        if pargs['include_disabled']:
+            additions.append('disabled included')
+        if pargs['exclude_occurrences']
+            additions.append('occurrences excluded')
+
+        print(f"{pargs['source']}: {pargs['begin']} -> {pargs['end']} {', '.join(additions)}")
         print()
 
     # Find jobs scheduled in the provided datetime range:
