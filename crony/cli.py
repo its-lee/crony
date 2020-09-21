@@ -113,7 +113,7 @@ def _run(pargs):
         additions = []
         if pargs['include_disabled']:
             additions.append('disabled included')
-        if pargs['exclude_occurrences']
+        if pargs['exclude_occurrences']:
             additions.append('occurrences excluded')
 
         print(f"{pargs['source']}: {pargs['begin']} -> {pargs['end']} {', '.join(additions)}")
