@@ -9,15 +9,13 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: debug logging (+ control of this via the command line --v, --vv, --vvv)
 # todo: fixes: crontab.jobs - Iterate through all jobs, this includes disabled (commented out) cron jobs.
 # we'll want to be able to include / exclude commented out jobs - default to exclude.
 # todo: travis unit tests + badge
 # todo: put required python versions in setup.py
-# todo: log when skipping invalid lines (and log why they're invalid)
 # todo: add requirements on python & dependencies
 # todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
-
+# todo: relative date formats might be good? https://stackoverflow.com/questions/39091969/parsing-human-readable-relative-times
 
 
 # travis ci:
@@ -29,7 +27,6 @@ import crony.manifest
 
 # todo: test:
 # all options
-# log level
 # general behaviour in all cases
 # time equal to the end point
 #   from croniter import croniter_range
