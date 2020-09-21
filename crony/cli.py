@@ -71,11 +71,13 @@ def parse_crontab(pargs):
     Returns:
         tuple: A tuple of (human readable crontab source, crontab.CronTab)
     """
-    if sys.__stdin__.isatty():
-        if pargs['input']:
-            return ('input', CronTab(tabfile=pargs['input']))
-        elif pargs['user']:
-            return (f"user:{pargs['user']}", CronTab(user=pargs['user']))
+    if sys.stdin.isatty():
+        _input = pargs.get('input')
+        _user = pargs.get('user')
+        if _input:
+            return ('input', CronTab(tabfile=_input))
+        elif _user:
+            return (f"user:{_user}", CronTab(user=_user))
         else:
             # In the case of none of them being passed, we default to the current user.
             return ('user:current', CronTab(user=True))
