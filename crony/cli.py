@@ -9,6 +9,7 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
+# todo: fix weird output format: 2020-09-21 18:35:03.52082
 # todo: print full crontab line on output (or maybe make this configurable?)
 # todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
@@ -103,6 +104,21 @@ def _init_logging(pargs):
     log_level = log_level[0] if log_level else logging.ERROR
     root_logger.setLevel(log_level)
 
+def _build_header(pargs):
+    """Build the header
+
+    Args:
+        pargs (dict): The parsed args
+    """
+    additions = []
+    if pargs['include_disabled']:
+        additions.append('disabled included')
+    if pargs['exclude_occurrences']:
+        additions.append('occurrences excluded')
+
+    additions_text = f"({', '.join(additions)})" if additions else ''
+    return f"{pargs['source']}: {pargs['begin']} -> {pargs['end']} {additions_text}"
+
 def _run(pargs):
     """Run the program based on parsed args
 
@@ -114,13 +130,7 @@ def _run(pargs):
 
     # Print the header if not excluded:
     if not pargs['exclude_header']:
-        additions = []
-        if pargs['include_disabled']:
-            additions.append('disabled included')
-        if pargs['exclude_occurrences']:
-            additions.append('occurrences excluded')
-
-        print(f"{pargs['source']}: {pargs['begin']} -> {pargs['end']} {', '.join(additions)}")
+        print(_build_header(pargs))
         print()
 
     # Find jobs scheduled in the provided datetime range:
