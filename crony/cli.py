@@ -15,6 +15,7 @@ import crony.manifest
 # todo: travis unit tests + badge
 # todo: put required python versions in setup.py
 # todo: log when skipping invalid lines (and log why they're invalid)
+# todo: add requirements on python & dependencies
 # todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
 
 
@@ -36,7 +37,7 @@ import crony.manifest
 #   range = croniter_range(args.begin, args.end, ret_type=datetime.datetime)
 #   len(range)
 
-_logger = logging.getLogger(__name__) 
+_logger = logging.getLogger(__name__)
 
 # Initialise log levels
 LOG_LEVELS = {
@@ -89,12 +90,12 @@ def _init_logging(pargs):
         pargs (dict): The parsed args
     """
     root_logger = logging.getLogger()
-    
+
     # Set up the stderr log handler:
     formatter = logging.Formatter('%(asctime)s | %(name)25s | %(levelname)5s | %(message)s')
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
-    root_logger.addHandler(handler)   
+    root_logger.addHandler(handler)
 
     # Set the root/global log level - this can be configured by the user if need be:
     log_level = [ v for k, v in LOG_LEVELS.items() if k in pargs and pargs[k] ]
@@ -126,7 +127,7 @@ def _run(pargs):
             line = f"{job['command']} - ran {job['occurrence']} time{s}"
 
         print(line)
-    
+
 
 def main():
     """The application entry point
@@ -142,7 +143,7 @@ def main():
         # Version output:
         version = crony.manifest.pkgname + ' ' + crony.manifest.version
         arg('--version', '-V', action='version', version=version, exclude_metavar=False)
-     
+
         # Logging options:
         logging_group = parser.add_mutually_exclusive_group()
         for k, v in LOG_LEVELS.items():
@@ -163,7 +164,7 @@ def main():
 
         # Output options:
         arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
-        arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")  
+        arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
 
         pargs = vars(parser.parse_args())
         _init_logging(pargs)
