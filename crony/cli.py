@@ -14,13 +14,14 @@ import crony.manifest
 # todo: print full crontab line on output (or maybe make this configurable?)
 # todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
-
-# todo: travis unit tests + badge
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
-# todo: https://gitlab.com/doctormo/python-crontab/-/blob/master/crontab.py
 # todo: relative date formats might be good? https://stackoverflow.com/questions/39091969/parsing-human-readable-relative-times
 # todo: test all options
+
+# todo: travis unit tests + badge
+
+
 
 # travis ci:
 # follow:
@@ -29,7 +30,7 @@ import crony.manifest
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 
 
-# todo: test:
+# todo: test: --- this is done - leaving here as this is what we wanna test!
 # all options
 # general behaviour in all cases
 # time equal to the end point
