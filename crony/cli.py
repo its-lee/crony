@@ -58,11 +58,11 @@ def main():
             action='version',
             version=__manifest__['pkgname'] + ' ' + __manifest__['version']
         )
-        add_argument('--exclude-header', '-m',
+        add_argument('--exclude-header', '-h',
             help="Exclude the header from the output",
             action='store_true'
         )
-        add_argument('--exclude-occurrences', '-m',
+        add_argument('--exclude-occurrences', '-o',
             help="Exclude occurrences from the output",
             action='store_true'
         )
