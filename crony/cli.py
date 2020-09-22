@@ -129,7 +129,7 @@ def _init_logging(pargs):
 
     # Set the root/global log level - this can be configured by the user if need be:
     log_level = _LOG_LEVELS.parse(pargs, logging.ERROR)
-    root_logger.setLevel(log_levgel)
+    root_logger.setLevel(log_level)
 
 def _stringize_datetime(dt):
     return dt.strftime(_DEFAULT_DATE_FORMAT)
