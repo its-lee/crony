@@ -47,8 +47,8 @@ _logger = logging.getLogger(__name__)
 
 _DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-class Levels:
-    def __init__(self, char, options)
+class LevelledOption:
+    def __init__(self, char, options):
         self.levels = char * (i + 1): v for i, v in enumerate(options)
 
     def add_to_parser(self, parser, help_format):
@@ -65,9 +65,10 @@ class Levels:
         value = [v for k, v in self.levels.items() if k in pargs and pargs[k]]
         value = value[0] if value else default
 
+
 # Initialise log levels
-_LOG_LEVELS = Levels('v', [ 'WARNING', 'INFO', 'DEBUG' ])
-_DETAIL_LEVELS = Levels('d', [ 'COUNT', 'FULL' ])
+_LOG_LEVELS = LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
+_DETAIL_LEVELS = LevelledOption('d', ['COUNT', 'FULL'])
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
