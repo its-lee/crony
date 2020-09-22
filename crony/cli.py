@@ -148,7 +148,7 @@ def _run(pargs):
         if not pargs['exclude_occurrences']:
             occurrence_count = len(job.occurrences)
             s = '' if occurrence_count == 1 else 's'
-            print(f"\{occurrence_count} occurrence{s}")
+            print(f"\t{occurrence_count} occurrence{s}")
 
 
 def main():
