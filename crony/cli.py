@@ -141,7 +141,8 @@ def _run(pargs):
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
-        print(job.line)
+        # Print the command / whole line based on provided options
+        print(job.command if pargs['only_command'] else job.line)
 
         # Output the job, with a format based on provided options
         if not pargs['exclude_occurrences']:
@@ -182,6 +183,7 @@ def main():
         arg('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
 
         # Output options:
+        arg('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
         arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
 
