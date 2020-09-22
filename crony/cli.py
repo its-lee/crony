@@ -8,13 +8,10 @@ import crony.core
 import crony.manifest
 from crony.levelledoption import LevelledOption
 
-# todo: missing docblocks
-
-# todo: print another format which is just all the datetimes each job would have run.
+# todo: relative date formats might be good? https://stackoverflow.com/questions/39091969/parsing-human-readable-relative-times
 # todo: anything else after playing around with?
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
-# todo: relative date formats might be good? https://stackoverflow.com/questions/39091969/parsing-human-readable-relative-times
 # todo: test all options
 
 # todo: travis unit tests + badge
