@@ -2,6 +2,7 @@ import sys
 import os
 import logging
 from datetime import datetime
+from enum import Enum
 import argparse
 
 from crontab import CronTab
@@ -48,9 +49,18 @@ _logger = logging.getLogger(__name__)
 
 _DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-# Initialise log levels
-_LOG_LEVELS = LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
-_DETAIL_LEVELS = LevelledOption('d', ['COUNT', 'FULL'])
+_LOG_LEVELS = LevelledOption('v', [
+    'WARNING',
+    'INFO',
+    'DEBUG'
+])
+
+class DetailLevel(Enum):
+    NONE = 0
+    COUNT = 1
+    FULL = 2
+
+_DETAIL_LEVELS = LevelledOption('d', DetailLevel.__members__.keys())
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
@@ -145,17 +155,18 @@ def _run(pargs):
         print()
 
     # Get the detail level, the default is None, so no detail.
-    detail_level = _DETAIL_LEVELS.parse(pargs)
+    detail_level = DetailLevel(_DETAIL_LEVELS.parse(pargs))
+    print(detail_level)
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
         # Print the command / whole line based on provided options
         print(job.command if pargs['only_command'] else job.line)
 
-        if detail_level == 'COUNT' or detail_level == 'FULL':
+        if detail_level.name == 'COUNT' or detail_level.name == 'FULL':
             print(f"\tOccurrences: {len(job.occurrences)}")
 
-        if detail_level == 'FULL':
+        if detail_level.name == 'FULL':
             for occurrence in job.occurrences:
                 print("\t\t" + _stringize_datetime(occurrence))
 
@@ -182,13 +193,13 @@ def main():
         crontab_group.add_argument('--file', '-f', help="The path to a crontab to be analysed")
         crontab_group.add_argument('--user', '-u', help="The user whose crontab is to be analysed")
 
-        # Analysis options:
+        # Disabled options:
         parser.add_argument('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
 
         # Output options:
         parser.add_argument('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         parser.add_argument('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
-        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level')
+        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level', default=DetailLevel.NONE)
 
         pargs = vars(parser.parse_args())
         _init_logging(pargs)
