@@ -50,7 +50,7 @@ _DETAIL_LEVELS = LevelledOption('d', [
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
-    """Convert datetime-typed argparse args to datetime.datetime
+    """Convert datetime-typed argparse args to datetime
 
     Args:
         s (str): A datetime str passed to argparse
@@ -59,7 +59,7 @@ def _valid_datetime(s):
         argparse.ArgumentTypeError: Raised on invalid datetime
 
     Returns:
-        datetime.datetime: The parsed datetime
+        datetime: The parsed datetime
     """
     try:
         return datetime.strptime(s, crony.core.DEFAULT_DATE_FORMAT)

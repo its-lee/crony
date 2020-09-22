@@ -55,11 +55,11 @@ def _get_occurrences(job, begin, end):
 
     Args:
         job (crontab.CronItem): The job to analyse
-        begin (datetime.datetime): The begin datetime
-        end (datetime.datetime): The end datetime
+        begin (datetime): The begin datetime
+        end (datetime): The end datetime
 
     Yields:
-        datetime.datetime: The datetimes when the job would run
+        datetime: The datetimes when the job would run
     """
     schedule = job.schedule(date_from=begin)
 
@@ -74,8 +74,8 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
 
     Args:
         crontab (crontab.CronTab): A parsed crontab
-        begin (datetime.datetime): The datetime to start analysing at
-        end (datetime.datetime): The datetime to end analysing at
+        begin (datetime): The datetime to start analysing at
+        end (datetime): The datetime to end analysing at
         include_disabled (bool): Also analyse enabled jobs?
 
     Yields:
