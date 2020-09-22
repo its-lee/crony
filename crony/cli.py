@@ -18,7 +18,7 @@ from crony.levelledoption import LevelledOption
 # todo: update README
 
 # todo: travis unit tests + badge
-
+# https://pypi.org/project/parameterized/
 # travis ci:
 # follow:
 #  - https://docs.travis-ci.com/user/tutorial/
