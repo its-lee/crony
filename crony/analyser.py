@@ -7,7 +7,6 @@ from crontab import CronTab
 
 _logger = logging.getLogger(__name__)
 
-
 class JobOccurrences:
     def __init__(self, job, occurrences):
         self.job = job
