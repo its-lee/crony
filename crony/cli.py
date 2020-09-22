@@ -9,8 +9,12 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: choose to output full line or just command
+# todo: replace --exclude-occurrences & remove it by output-levels
+# todo: make detail levels an enum
 # compactness level?
+# todo: split files up
+# todo: missing docblocks
+
 # todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
 # todo: put required python versions in setup.py
@@ -40,12 +44,29 @@ import crony.manifest
 
 _logger = logging.getLogger(__name__)
 
-DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+_DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+class Levels:
+    def __init__(self, char, options)
+        self.levels = char * (i + 1): v for i, v in enumerate(options)
+
+    def add_to_parser(self, parser, help_format):
+        group = parser.add_mutually_exclusive_group()
+        for k, v in self.levels:
+            group.add_argument(
+                f"--{k}",
+                default='',
+                action='store_true',
+                help=help_format.format(level=v.lower())
+            )
+
+    def parse(self, pargs, default=None):
+        value = [v for k, v in self.levels.items() if k in pargs and pargs[k]]
+        value = value[0] if value else default
 
 # Initialise log levels
-LOG_LEVELS = {
-    'v' * (i + 1): v for i, v in enumerate([ 'WARNING', 'INFO', 'DEBUG' ])
-}
+_LOG_LEVELS = Levels('v', [ 'WARNING', 'INFO', 'DEBUG' ])
+_DETAIL_LEVELS = Levels('d', [ 'COUNT', 'FULL' ])
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
@@ -61,7 +82,7 @@ def _valid_datetime(s):
         datetime.datetime: The parsed datetime
     """
     try:
-        return datetime.strptime(s, DEFAULT_DATE_FORMAT)
+        return datetime.strptime(s, _DEFAULT_DATE_FORMAT)
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
@@ -103,9 +124,11 @@ def _init_logging(pargs):
     root_logger.addHandler(handler)
 
     # Set the root/global log level - this can be configured by the user if need be:
-    log_level = [ v for k, v in LOG_LEVELS.items() if k in pargs and pargs[k] ]
-    log_level = log_level[0] if log_level else logging.ERROR
-    root_logger.setLevel(log_level)
+    log_level = _LOG_LEVELS.parse(pargs, logging.ERROR)
+    root_logger.setLevel(log_levgel)
+
+def _stringize_datetime(dt):
+    return dt.strftime(_DEFAULT_DATE_FORMAT)
 
 def _build_header(pargs):
     """Build the header
@@ -113,17 +136,7 @@ def _build_header(pargs):
     Args:
         pargs (dict): The parsed args
     """
-    begin = pargs['begin'].strftime(DEFAULT_DATE_FORMAT)
-    end = pargs['end'].strftime(DEFAULT_DATE_FORMAT)
-
-    additions = []
-    if pargs['include_disabled']:
-        additions.append('disabled included')
-    if pargs['exclude_occurrences']:
-        additions.append('occurrences excluded')
-
-    additions_text = f"({', '.join(additions)})" if additions else ''
-    return f"For {pargs['source']}: {begin} -> {end} {additions_text}"
+    return f"For {pargs['source']}: {_stringize_datetime(pargs['begin'])} -> {_stringize_datetime(pargs['end'])}"
 
 def _run(pargs):
     """Run the program based on parsed args
@@ -139,53 +152,54 @@ def _run(pargs):
         print(_build_header(pargs))
         print()
 
+    # Get the detail level, the default is None, so no detail.
+    detail_level = _DETAIL_LEVELS.parse(pargs)
+
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
         # Print the command / whole line based on provided options
         print(job.command if pargs['only_command'] else job.line)
 
-        # Output the job, with a format based on provided options
-        if not pargs['exclude_occurrences']:
+        if detail_level == 'COUNT':
             occurrence_count = len(job.occurrences)
             s = '' if occurrence_count == 1 else 's'
             print(f"\t{occurrence_count} occurrence{s}")
-
+        elif detail_level == 'FULL':
+            for occurrence in job.occurrences:
+                print("\t" + _stringize_datetime(occurrence))
 
 def main():
     """The application entry point
     """
     try:
         parser = argparse.ArgumentParser(description=crony.manifest.description)
-        def arg(*args, group=None, **kwargs):
-            to = group or parser
-            to.add_argument(*args, **kwargs)
 
         # Version output:
         version = crony.manifest.pkgname + ' ' + crony.manifest.version
-        arg('--version', '-V', action='version', version=version)
+        parser.add_argument('--version', '-V', action='version', version=version)
 
         # Logging options:
-        logging_group = parser.add_mutually_exclusive_group()
-        for k, v in LOG_LEVELS.items():
-            arg(f"--{k}", default='', action='store_true', group=logging_group, help=f"Log at the {v.lower()} level")
+        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level')
 
         # Time range:
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
-        arg('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
-        arg('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        parser.add_argument('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        parser.add_argument('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
 
         # Crontab reference - only allow 0 or 1 to remove any ambiguity:
         crontab_group = parser.add_mutually_exclusive_group()
-        arg('--file', '-f', group=crontab_group, help="The path to a crontab to be analysed")
-        arg('--user', '-u', group=crontab_group, help="The user whose crontab is to be analysed")
+        crontab_group.add_argument('--file', '-f', help="The path to a crontab to be analysed")
+        crontab_group.add_argument('--user', '-u', help="The user whose crontab is to be analysed")
 
         # Analysis options:
-        arg('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
+        parser.add_argument('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
 
         # Output options:
-        arg('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
-        arg('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
-        arg('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
+        parser.add_argument('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
+        parser.add_argument('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
+
+        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level')
+        parser.add_argument('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
 
         pargs = vars(parser.parse_args())
         _init_logging(pargs)
