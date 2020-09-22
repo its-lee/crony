@@ -60,9 +60,10 @@ class DetailLevel(Enum):
     COUNT = 1
     FULL = 2
 
-_DETAIL_LEVELS = LevelledOption('d',
-    DetailLevel.__members__.keys(),
-    default=DetailLevel.NONE)
+_DETAIL_LEVELS = LevelledOption('d', [
+    DetailLevel.COUNT.name,
+    DetailLevel.FULL.name
+], default=DetailLevel.NONE)
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
