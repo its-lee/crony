@@ -8,16 +8,35 @@ from crontab import CronTab
 _logger = logging.getLogger(__name__)
 
 class JobOccurrences:
+    """The representation of a cronjob which has occurred in a period of interest.
+    """
+
     def __init__(self, job, occurrences):
+        """Initialiser
+
+        Args:
+            job (crontab.CronItem): The occurring job
+            occurrences (list): The occurrence datetimes
+        """
         self.job = job
         self.occurrences = occurrences
 
     @property
     def command(self):
+        """The command text
+
+        Returns:
+            str: The command text
+        """
         return self.job.command
 
     @property
     def line(self):
+        """A generated cron job line representing the job
+
+        Returns:
+            str: A representation of the cron job line
+        """
         # Looking at the source for python-crontab, this can rarely raise an error, which we'll
         # propagate up, rather than returning a lie like '' / None or something we've made
         # which may not be correct..

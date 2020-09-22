@@ -8,6 +8,7 @@ from crontab import CronTab
 
 import crony.analyser
 import crony.manifest
+from crony.levelledoption import LevelledOption
 
 # output-level help text: 'Output at the {level} level'
 # todo: replace --exclude-occurrences & remove it by output-levels
@@ -46,27 +47,6 @@ import crony.manifest
 _logger = logging.getLogger(__name__)
 
 _DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-class LevelledOption:
-    def __init__(self, char, options):
-        self.levels = {
-            char * (i + 1): v for i, v in enumerate(options)
-        }
-
-    def add_to_parser(self, parser, help_format):
-        group = parser.add_mutually_exclusive_group()
-        for k, v in self.levels.items():
-            group.add_argument(
-                f"--{k}",
-                default='',
-                action='store_true',
-                help=help_format.format(level=v.lower())
-            )
-
-    def parse(self, pargs, default=None):
-        value = [v for k, v in self.levels.items() if k in pargs and pargs[k]]
-        return value[0] if value else default
-
 
 # Initialise log levels
 _LOG_LEVELS = LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
@@ -132,6 +112,14 @@ def _init_logging(pargs):
     root_logger.setLevel(log_level)
 
 def _stringize_datetime(dt):
+    """Convert a datetime to the default format used
+
+    Args:
+        dt (datetime.datetime): A datetime object to format
+
+    Returns:
+        str: The formatted datetime
+    """
     return dt.strftime(_DEFAULT_DATE_FORMAT)
 
 def _build_header(pargs):
