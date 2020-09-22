@@ -18,13 +18,13 @@ class LevelledOption:
 
         Args:
             char (str): The character used at the CLI
-            values (list): The incrementing values taken for each additional char used at the CLI
+            values (iterable): The incrementing values taken for each additional char used at the CLI
         """
         self.levels = {
             char * (i + 1): v for i, v in enumerate(values)
         }
 
-    def add_to_parser(self, parser, help_format):
+    def add_to_parser(self, parser, help_format, default=''):
         """Request the parser to add the associated arguments.
 
         Args:
@@ -36,7 +36,7 @@ class LevelledOption:
         for k, v in self.levels.items():
             group.add_argument(
                 f"--{k}",
-                default='',
+                default=default,
                 action='store_true',
                 help=help_format.format(level=v.lower())
             )
