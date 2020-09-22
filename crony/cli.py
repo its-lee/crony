@@ -103,7 +103,7 @@ def main():
         crontab_group.add_argument('--user', '-u', metavar='\b', help="the user whose crontab is to be analysed")
 
         # Disabled options:
-        parser.add_argument('--include-disabled', '-d', action='store_true', help="also analyse disabled cron jobs")
+        parser.add_argument('--include-disabled', '-i', action='store_true', help="also analyse disabled cron jobs")
 
         # Output options:
         parser.add_argument('--exclude-header', '-x', action='store_true', help="exclude the header from the output")
