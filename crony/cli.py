@@ -49,7 +49,9 @@ _DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 class LevelledOption:
     def __init__(self, char, options):
-        self.levels = char * (i + 1): v for i, v in enumerate(options)
+        self.levels = {
+            char * (i + 1): v for i, v in enumerate(options)
+        }
 
     def add_to_parser(self, parser, help_format):
         group = parser.add_mutually_exclusive_group()
