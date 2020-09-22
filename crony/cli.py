@@ -157,21 +157,17 @@ def _run(pargs):
         print()
 
     # Get the detail level, the default is None, so no detail.
-    print(pargs)
-    print(f"raw value {_DETAIL_LEVELS.parse(pargs)}")
-
     detail_level = DetailLevel[_DETAIL_LEVELS.parse(pargs)]
-    print(f"casted value {detail_level}")
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
         # Print the command / whole line based on provided options
         print(job.command if pargs['only_command'] else job.line)
 
-        if detail_level.name == 'COUNT' or detail_level.name == 'FULL':
+        if detail_level.value >= DetailLevel.COUNT.value
             print(f"\tOccurrences: {len(job.occurrences)}")
 
-        if detail_level.name == 'FULL':
+        if detail_level.value >= DetailLevel.FULL.value:
             for occurrence in job.occurrences:
                 print("\t\t" + _stringize_datetime(occurrence))
 
