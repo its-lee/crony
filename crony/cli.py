@@ -155,6 +155,7 @@ def _run(pargs):
         print()
 
     # Get the detail level, the default is None, so no detail.
+    print(pargs)
     print(f"raw value {_DETAIL_LEVELS.parse(pargs)}")
 
     detail_level = DetailLevel[_DETAIL_LEVELS.parse(pargs)]
