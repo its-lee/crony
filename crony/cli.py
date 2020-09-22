@@ -53,7 +53,7 @@ _LOG_LEVELS = LevelledOption('v', [
     'WARNING',
     'INFO',
     'DEBUG'
-], default=logging.ERROR)
+], default='ERROR')
 
 class DetailLevel(Enum):
     NONE = 0
@@ -63,7 +63,7 @@ class DetailLevel(Enum):
 _DETAIL_LEVELS = LevelledOption('d', [
     DetailLevel.COUNT.name,
     DetailLevel.FULL.name
-], default=DetailLevel.NONE)
+], default=DetailLevel.NONE.name)
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
