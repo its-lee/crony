@@ -94,7 +94,7 @@ def main():
         _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
 
         # Time range:
-        dt = { 'default': datetime.now(), 'type': _valid_datetime, metavar = '\b' }
+        dt = { 'default': datetime.now(), 'type': _valid_datetime, 'metavar' = '\b' }
         parser.add_argument('--begin', '-b', **dt, help="the datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
         parser.add_argument('--end', '-e', **dt, help="the datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
 
