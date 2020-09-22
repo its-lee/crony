@@ -13,18 +13,20 @@ class LevelledOption:
         LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
     """
 
-    def __init__(self, char, values):
+    def __init__(self, char, values, default=None):
         """Initialiser
 
         Args:
             char (str): The character used at the CLI
             values (iterable): The incrementing values taken for each additional char used at the CLI
+            default (any): The fallback value when parsing if no relevant option has been passed
         """
         self.levels = {
             char * (i + 1): v for i, v in enumerate(values)
         }
+        self.default = default
 
-    def add_to_parser(self, parser, help_format, default=''):
+    def add_to_parser(self, parser, help_format):
         """Request the parser to add the associated arguments.
 
         Args:
@@ -36,20 +38,19 @@ class LevelledOption:
         for k, v in self.levels.items():
             group.add_argument(
                 f"--{k}",
-                default=default,
+                default='',
                 action='store_true',
                 help=help_format.format(level=v.lower())
             )
 
-    def parse(self, pargs, default=None):
+    def parse(self, pargs):
         """Get the value of the parsed LevelledOption, with a defined default.
 
         Args:
             pargs (dict): The parsed arguments
-            default (any, optional): The default value if nothing is passed. Defaults to None.
 
         Returns:
             any: The value inferred, or default
         """
         value = [v for k, v in self.levels.items() if k in pargs and pargs[k]]
-        return value[0] if value else default
+        return value[0] if value else self.default

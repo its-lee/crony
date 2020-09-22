@@ -117,9 +117,8 @@ def _init_logging(pargs):
     handler.setFormatter(formatter)
     root_logger.addHandler(handler)
 
-    # Set the root/global log level - this can be configured by the user if need be:
-    log_level = _LOG_LEVELS.parse(pargs, logging.ERROR)
-    root_logger.setLevel(log_level)
+    # Set the root/global log level:
+    root_logger.setLevel(_LOG_LEVELS.parse(pargs))
 
 def _stringize_datetime(dt):
     """Convert a datetime to the default format used
@@ -184,7 +183,7 @@ def main():
         parser.add_argument('--version', '-V', action='version', version=version)
 
         # Logging options:
-        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level')
+        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level', default=logging.ERROR)
 
         # Time range:
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
