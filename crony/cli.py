@@ -87,7 +87,7 @@ def main():
         parser = argparse.ArgumentParser(description=crony.manifest.description)
 
         # Version output:
-        parser.add_argument('--version', '-V', action='version', version=f"{crony.manifest.pkgname} {crony.manifest.version}")
+        parser.add_argument('--version', '-V', action='version', version=f"{crony.manifest.pkgname}@{crony.manifest.version}")
 
         # Logging options:
         _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
