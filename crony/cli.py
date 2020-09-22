@@ -65,7 +65,7 @@ class LevelledOption:
 
     def parse(self, pargs, default=None):
         value = [v for k, v in self.levels.items() if k in pargs and pargs[k]]
-        value = value[0] if value else default
+        return value[0] if value else default
 
 
 # Initialise log levels
