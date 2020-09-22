@@ -66,7 +66,7 @@ def run(**kwargs):
         kwargs (dict): Keyword args
     """
     # Parse args:
-    (kwargs['source'], kwargs['crontab']) = _parse_crontab(kwargs)
+    (kwargs['source'], kwargs['crontab']) = _parse_crontab(**kwargs)
 
     # Print the header if not excluded:
     if not kwargs['exclude_header']:
