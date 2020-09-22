@@ -31,6 +31,8 @@ from crony.levelledoption import LevelledOption
 
 _logger = logging.getLogger(__name__)
 
+_NOW = datetime.now()
+
 _LOG_LEVELS = LevelledOption('v', [
     'WARNING',
     'INFO',
@@ -128,6 +130,15 @@ def _init_logging(args):
     # Set the root/global log level:
     root_logger.setLevel(_LOG_LEVELS.parse(args))
 
+def add_begin_end_argument(parser, begin_end, options):
+    help_ = 'the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted' 
+    parser.add_argument(*options, 
+        default=_NOW, 
+        type=_valid_datetime, 
+        metavar='\b',
+        help=help_.format(type=type)
+    )
+
 def main():
     """The application entry point
     """
@@ -140,10 +151,9 @@ def main():
         # Logging options:
         _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
 
-        # Time range:
-        dt = { 'default': datetime.now(), 'type': _valid_datetime, 'metavar': '\b' }
-        parser.add_argument('--begin', '-b', **dt, help="the datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
-        parser.add_argument('--end', '-e', **dt, help="the datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        # Datetime range:
+        add_begin_end_argument(parser, 'begin', [ '--begin', '-b' ])
+        add_begin_end_argument(parser, 'end', [ '--end', '-e' ])
 
         # Crontab reference - only allow 0 or 1 to remove any ambiguity:
         crontab_group = parser.add_mutually_exclusive_group()
