@@ -18,11 +18,18 @@ class JobOccurrences:
 
     @property
     def line(self):
-        try:
-            return self.job.render()
-        except:
-            _logger.warn(f"Failed to render the job with command {self.job.command} as a crontab line")
-            return ''
+        # Looking at the source for python-crontab, this can rarely raise an error, which we'll
+        # propagate up, rather than returning a lie like '' / None or something we've made
+        # which may not be correct..
+        #
+        # It seems to only be able to fail when using the system user's crontab, where each command
+        # has a user name, and no current user exists. The error is:
+        #     ValueError("Job to system-cron format, no user set!")
+        #
+        # We don't provide the ability to open the system user's crontab with the set of options
+        # crony supports, so this won't happen, but if it did, this is at least the most honest
+        # way to deal with it.
+        return self.job.render()
 
 def _get_occurrences(job, begin, end):
     """Yield all occurrences between a begin and end datetime for a job

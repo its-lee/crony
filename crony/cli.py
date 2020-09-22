@@ -9,6 +9,7 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
+# todo: better output format
 # todo: print full crontab line on output (or maybe make this configurable?):
 # compactness level?
 # todo: print another format which is just all the datetimes each job would have run.
@@ -144,11 +145,11 @@ def _run(pargs):
         # Output the job, with a format based on provided options
         line = None
         if pargs['exclude_occurrences']:
-            line = job.command
+            line = job.line
         else:
             occurrence_count = len(job.occurrences)
             s = '' if occurrence_count == 1 else 's'
-            line = f"{job.command} - ran {occurrence_count} time{s}"
+            line = f"{job.line} - ran {occurrence_count} time{s}"
 
         print(line)
 
