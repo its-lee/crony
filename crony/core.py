@@ -33,7 +33,7 @@ def _parse_crontab(file=None, user=None, **kwargs):
 
     # Else, infer from the supplied args
     if file:
-        return ('input', CronTab(tabfile=file))
+        return (f"file:{file}", CronTab(tabfile=file))
     elif user:
         return (f"user:{user}", CronTab(user=user))
     else:
