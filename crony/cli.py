@@ -155,8 +155,10 @@ def _run(pargs):
         print()
 
     # Get the detail level, the default is None, so no detail.
+    print(f"raw value {_DETAIL_LEVELS.parse(pargs)}")
+
     detail_level = DetailLevel[_DETAIL_LEVELS.parse(pargs)]
-    print(detail_level)
+    print(f"casted value {detail_level}")
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
