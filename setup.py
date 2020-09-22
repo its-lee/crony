@@ -17,6 +17,7 @@ setup(
     install_requires = [
         'croniter',
         'python-crontab',
+        'dateparser',
         'packaging',
     ],
     entry_points = {
