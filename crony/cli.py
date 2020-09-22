@@ -15,7 +15,7 @@ from crony.levelledoption import LevelledOption
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
 # todo: test all options
-# todo: update README
+# todo: update README 
 
 # todo: travis unit tests + badge
 # https://pypi.org/project/parameterized/
