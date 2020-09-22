@@ -9,6 +9,7 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
+# output-level help text: 'Output at the {level} level'
 # todo: replace --exclude-occurrences & remove it by output-levels
 # todo: make detail levels an enum
 # compactness level?
@@ -197,9 +198,7 @@ def main():
         # Output options:
         parser.add_argument('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         parser.add_argument('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
-
         _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level')
-        parser.add_argument('--exclude-occurrences', '-o', action='store_true', help="Exclude occurrences from the output")
 
         pargs = vars(parser.parse_args())
         _init_logging(pargs)
