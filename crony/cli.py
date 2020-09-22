@@ -91,25 +91,25 @@ def main():
         parser.add_argument('--version', '-V', action='version', version=version)
 
         # Logging options:
-        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level')
+        _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
 
         # Time range:
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
-        parser.add_argument('--begin', '-b', **dt, help="The datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
-        parser.add_argument('--end', '-e', **dt, help="The datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        parser.add_argument('--begin', '-b', **dt, help="the datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
+        parser.add_argument('--end', '-e', **dt, help="the datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
 
         # Crontab reference - only allow 0 or 1 to remove any ambiguity:
         crontab_group = parser.add_mutually_exclusive_group()
-        crontab_group.add_argument('--file', '-f', help="The path to a crontab to be analysed")
-        crontab_group.add_argument('--user', '-u', help="The user whose crontab is to be analysed")
+        crontab_group.add_argument('--file', '-f', help="the path to a crontab to be analysed")
+        crontab_group.add_argument('--user', '-u', help="the user whose crontab is to be analysed")
 
         # Disabled options:
-        parser.add_argument('--include-disabled', '-d', action='store_true', help="Also analyse disabled cron jobs")
+        parser.add_argument('--include-disabled', '-d', action='store_true', help="also analyse disabled cron jobs")
 
         # Output options:
-        parser.add_argument('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
-        parser.add_argument('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
-        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level')
+        parser.add_argument('--exclude-header', '-m', action='store_true', help="exclude the header from the output")
+        parser.add_argument('--only-command', '-c', action='store_true', help="only show the command, not the full line")
+        _DETAIL_LEVELS.add_to_parser(parser, 'output at the {level} level')
 
         parsed_args = vars(parser.parse_args())
         _init_logging(parsed_args)
