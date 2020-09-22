@@ -81,7 +81,7 @@ def run(**kwargs):
         # Print the command / whole line based on provided options
         print(job.command if kwargs['only_command'] else job.line)
 
-        if detail_level.value >= DetailLevel.COUNT.value
+        if detail_level.value >= DetailLevel.COUNT.value:
         print(f"\tOccurrences: {len(job.occurrences)}")
 
         if detail_level.value >= DetailLevel.FULL.value:
