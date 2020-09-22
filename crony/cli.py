@@ -124,7 +124,7 @@ def _build_header(pargs):
         additions.append('occurrences excluded')
 
     additions_text = f"({', '.join(additions)})" if additions else ''
-    return f"{pargs['source']}: {begin} -> {end} {additions_text}"
+    return f"For {pargs['source']}: {begin} -> {end} {additions_text}"
 
 def _run(pargs):
     """Run the program based on parsed args
