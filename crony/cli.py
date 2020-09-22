@@ -13,6 +13,7 @@ from crony.levelledoption import LevelledOption
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
 # todo: test all options
+# todo: update README
 
 # todo: travis unit tests + badge
 
@@ -22,15 +23,9 @@ from crony.levelledoption import LevelledOption
 #  - https://docs.travis-ci.com/user/languages/python/#dependency-management
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 
-
 # todo: test: --- this is done - leaving here as this is what we wanna test!
 # all options
 # general behaviour in all cases
-# time equal to the end point
-#   from croniter import croniter_range
-#   https://pypi.org/project/croniter/#iterating-over-a-range-using-cron
-#   range = croniter_range(args.begin, args.end, ret_type=datetime.datetime)
-#   len(range)
 
 _logger = logging.getLogger(__name__)
 
