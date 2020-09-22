@@ -155,7 +155,7 @@ def _run(pargs):
         print()
 
     # Get the detail level, the default is None, so no detail.
-    detail_level = DetailLevel(_DETAIL_LEVELS.parse(pargs))
+    detail_level = DetailLevel.__members___[DETAIL_LEVELS.parse(pargs)]
     print(detail_level)
 
     # Find jobs occurring in the provided datetime range:
