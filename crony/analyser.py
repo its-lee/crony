@@ -39,7 +39,7 @@ def _get_occurrences(job, begin, end):
 
     while True:
         occurrence = schedule.get_next()
-        if occurrence > end
+        if occurrence > end:
             break
         yield occurrence
 
