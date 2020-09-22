@@ -9,8 +9,6 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: fix weird output format: 2020-09-21 18:35:03.52082
-# todo: make analyser output classy
 # todo: print full crontab line on output (or maybe make this configurable?):
 # compactness level?
 # todo: print another format which is just all the datetimes each job would have run.
@@ -141,15 +139,16 @@ def _run(pargs):
         print(_build_header(pargs))
         print()
 
-    # Find jobs scheduled in the provided datetime range:
-    for job in crony.analyser.get_scheduled_jobs(**pargs):
+    # Find jobs occurring in the provided datetime range:
+    for job in crony.analyser.get_job_occurrences(**pargs):
         # Output the job, with a format based on provided options
         line = None
         if pargs['exclude_occurrences']:
-            line = job['command']
+            line = job.command
         else:
-            s = '' if job['occurrences'] == 1 else 's'
-            line = f"{job['command']} - ran {job['occurrences']} time{s}"
+            occurrence_count = len(job.occurrences)
+            s = '' if occurrence_count == 1 else 's'
+            line = f"{job.command} - ran {occurrence_count} time{s}"
 
         print(line)
 
