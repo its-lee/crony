@@ -42,6 +42,8 @@ import crony.manifest
 
 _logger = logging.getLogger(__name__)
 
+DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 # Initialise log levels
 LOG_LEVELS = {
     'v' * (i + 1): v for i, v in enumerate([ 'WARNING', 'INFO', 'DEBUG' ])
@@ -61,7 +63,7 @@ def _valid_datetime(s):
         datetime.datetime: The parsed datetime
     """
     try:
-        return datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
+        return datetime.strptime(s, DEFAULT_DATE_FORMAT)
     except ValueError:
         raise argparse.ArgumentTypeError(f"Invalid datetime: '{s}'.")
 
@@ -113,6 +115,9 @@ def _build_header(pargs):
     Args:
         pargs (dict): The parsed args
     """
+    begin = pargs['begin'].strftime(DEFAULT_DATE_FORMAT)
+    end = pargs['end'].strftime(DEFAULT_DATE_FORMAT)
+
     additions = []
     if pargs['include_disabled']:
         additions.append('disabled included')
@@ -120,7 +125,7 @@ def _build_header(pargs):
         additions.append('occurrences excluded')
 
     additions_text = f"({', '.join(additions)})" if additions else ''
-    return f"{pargs['source']}: {pargs['begin']} -> {pargs['end']} {additions_text}"
+    return f"{pargs['source']}: {begin} -> {end} {additions_text}"
 
 def _run(pargs):
     """Run the program based on parsed args
