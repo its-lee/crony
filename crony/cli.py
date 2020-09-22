@@ -94,14 +94,14 @@ def main():
         _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
 
         # Time range:
-        dt = { 'default': datetime.now(), 'type': _valid_datetime }
+        dt = { 'default': datetime.now(), 'type': _valid_datetime, metavar = '\b' }
         parser.add_argument('--begin', '-b', **dt, help="the datetime to begin at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
         parser.add_argument('--end', '-e', **dt, help="the datetime to end at (YYYY-MM-DD HH:MM:SS), defaults to the current datetime")
 
         # Crontab reference - only allow 0 or 1 to remove any ambiguity:
         crontab_group = parser.add_mutually_exclusive_group()
-        crontab_group.add_argument('--file', '-f', help="the path to a crontab to be analysed")
-        crontab_group.add_argument('--user', '-u', help="the user whose crontab is to be analysed")
+        crontab_group.add_argument('--file', '-f', metavar='\b', help="the path to a crontab to be analysed")
+        crontab_group.add_argument('--user', '-u', metavar='\b', help="the user whose crontab is to be analysed")
 
         # Disabled options:
         parser.add_argument('--include-disabled', '-d', action='store_true', help="also analyse disabled cron jobs")
