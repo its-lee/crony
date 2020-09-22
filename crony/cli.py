@@ -53,14 +53,16 @@ _LOG_LEVELS = LevelledOption('v', [
     'WARNING',
     'INFO',
     'DEBUG'
-])
+], default=logging.ERROR)
 
 class DetailLevel(Enum):
     NONE = 0
     COUNT = 1
     FULL = 2
 
-_DETAIL_LEVELS = LevelledOption('d', DetailLevel.__members__.keys())
+_DETAIL_LEVELS = LevelledOption('d',
+    DetailLevel.__members__.keys(),
+    default=DetailLevel.NONE)
 
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
@@ -183,7 +185,7 @@ def main():
         parser.add_argument('--version', '-V', action='version', version=version)
 
         # Logging options:
-        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level', default=logging.ERROR)
+        _LOG_LEVELS.add_to_parser(parser, 'Log at the {level} level')
 
         # Time range:
         dt = { 'default': datetime.now(), 'type': _valid_datetime }
@@ -201,7 +203,7 @@ def main():
         # Output options:
         parser.add_argument('--exclude-header', '-m', action='store_true', help="Exclude the header from the output")
         parser.add_argument('--only-command', '-c', action='store_true', help="Only show the command, not the full line")
-        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level', default=DetailLevel.NONE)
+        _DETAIL_LEVELS.add_to_parser(parser, 'Output at the {level} level')
 
         pargs = vars(parser.parse_args())
         _init_logging(pargs)
