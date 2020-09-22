@@ -55,7 +55,7 @@ class LevelledOption:
 
     def add_to_parser(self, parser, help_format):
         group = parser.add_mutually_exclusive_group()
-        for k, v in self.levels:
+        for k, v in self.levels.items():
             group.add_argument(
                 f"--{k}",
                 default='',
