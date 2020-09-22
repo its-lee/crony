@@ -75,18 +75,15 @@ def run(**kwargs):
         print(_build_header(**kwargs))
         print()
 
-    # Get the detail level, the default is None, so no detail.
-    detail_level = DetailLevel[_DETAIL_LEVELS.parse(kwargs)]
-
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**kwargs):
         # Print the command / whole line based on provided options
         print(job.command if kwargs['only_command'] else job.line)
 
         # Also supply any other configured detail:
-        if detail_level.value >= DetailLevel.COUNT.value:
+        if kwargs['detail_level'].value >= DetailLevel.COUNT.value:
             print(f"\tOccurrences: {len(job.occurrences)}")
 
-        if detail_level.value >= DetailLevel.FULL.value:
+        if kwargs['detail_level'].value >= DetailLevel.FULL.value:
             for occurrence in job.occurrences:
                 print("\t\t" + _stringize_datetime(occurrence))

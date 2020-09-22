@@ -116,6 +116,7 @@ def main():
 
         parsed_args = vars(parser.parse_args())
         _init_logging(parsed_args)
+        parsed_args['detail_level'] = crony.core.DetailLevel[_DETAIL_LEVELS.parse(parsed_args)]
         crony.core.run(**parsed_args)
 
     except KeyboardInterrupt:
