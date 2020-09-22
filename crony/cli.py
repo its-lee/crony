@@ -11,10 +11,6 @@ import crony.analyser
 import crony.manifest
 from crony.levelledoption import LevelledOption
 
-# output-level help text: 'Output at the {level} level'
-# todo: replace --exclude-occurrences & remove it by output-levels
-# todo: make detail levels an enum
-# compactness level?
 # todo: split files up
 # todo: missing docblocks
 
