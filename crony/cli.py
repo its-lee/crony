@@ -152,13 +152,12 @@ def _run(pargs):
         # Print the command / whole line based on provided options
         print(job.command if pargs['only_command'] else job.line)
 
-        if detail_level == 'COUNT':
-            occurrence_count = len(job.occurrences)
-            s = '' if occurrence_count == 1 else 's'
-            print(f"\t{occurrence_count} occurrence{s}")
-        elif detail_level == 'FULL':
+        if detail_level == 'COUNT' or detail_level == 'FULL':
+            print(f"\tOccurrences: {len(job.occurrences)}")
+
+        if detail_level == 'FULL':
             for occurrence in job.occurrences:
-                print("\t" + _stringize_datetime(occurrence))
+                print("\t\t" + _stringize_datetime(occurrence))
 
 def main():
     """The application entry point
