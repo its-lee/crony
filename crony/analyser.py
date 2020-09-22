@@ -21,9 +21,8 @@ class JobOccurrences:
         try:
             return self.job.render()
         except:
-            _logger.warn(
-                f"Failed to render the job with command {self.job.command} as a crontab line")
-        return ''
+            _logger.warn(f"Failed to render the job with command {self.job.command} as a crontab line")
+            return ''
 
 def _get_occurrences(job, begin, end):
     """Yield all occurrences between a begin and end datetime for a job
