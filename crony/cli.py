@@ -9,7 +9,6 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: better output format ( the hyphen thing is annoying )
 # todo: choose to output full line or just command
 # compactness level?
 # todo: print another format which is just all the datetimes each job would have run.
