@@ -106,7 +106,7 @@ def main():
         parser.add_argument('--include-disabled', '-d', action='store_true', help="also analyse disabled cron jobs")
 
         # Output options:
-        parser.add_argument('--exclude-header', '-m', action='store_true', help="exclude the header from the output")
+        parser.add_argument('--exclude-header', '-x', action='store_true', help="exclude the header from the output")
         parser.add_argument('--only-command', '-c', action='store_true', help="only show the command, not the full line")
         _DETAIL_LEVELS.add_to_parser(parser, 'output at the {level} level')
 
