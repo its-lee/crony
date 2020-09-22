@@ -9,8 +9,8 @@ from crontab import CronTab
 import crony.analyser
 import crony.manifest
 
-# todo: better output format
-# todo: print full crontab line on output (or maybe make this configurable?):
+# todo: better output format ( the hyphen thing is annoying )
+# todo: choose to output full line or just command
 # compactness level?
 # todo: print another format which is just all the datetimes each job would have run.
 # todo: anything else after playing around with?
@@ -142,16 +142,13 @@ def _run(pargs):
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**pargs):
+        print(job.line)
+
         # Output the job, with a format based on provided options
-        line = None
-        if pargs['exclude_occurrences']:
-            line = job.line
-        else:
+        if not pargs['exclude_occurrences']:
             occurrence_count = len(job.occurrences)
             s = '' if occurrence_count == 1 else 's'
-            line = f"{job.line} - ran {occurrence_count} time{s}"
-
-        print(line)
+            print(f"\tRan {occurrence_count} time{s}")
 
 
 def main():
