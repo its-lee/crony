@@ -5,7 +5,9 @@ Helpful in the following scenarios:
 - Determining which jobs should have been run during an outage to 'catch up' your system.
 - Forecasting which jobs will run when planning outage/events/other jobs.
 
-![Screenshot](screenshots/main.png)
+<p align="center">
+  <img src="screenshots/main.png">
+</p>
 
 ## Installation
 pipx is recommended to install crony (https://pipxproject.github.io/pipx/installation/).
