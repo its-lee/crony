@@ -7,7 +7,6 @@ import crony.core
 import crony.manifest
 import crony.args
 
-# todo: anything else after playing around with?
 # todo: put required python versions in setup.py?
 # todo: add requirements on python & dependencies
 # todo: test all options
@@ -22,8 +21,7 @@ import crony.args
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 
 # todo: test: --- this is done - leaving here as this is what we wanna test!
-# all options
-# general behaviour in all cases
+# todo: test all options, all usages
 
 _logger = logging.getLogger(__name__)
 
