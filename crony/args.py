@@ -176,7 +176,7 @@ def parse(args=None):
     parser.add_argument(
         '--include-disabled', '-i',
         action='store_true',
-        help="also analyse disabled cron jobs"
+        help="also include disabled cron jobs"
     )
 
     # Output options:
