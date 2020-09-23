@@ -97,6 +97,8 @@ def _valid_datetime(s):
 
 def _add_begin_end_argument(parser, begin_end):
     help_ = 'the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted'
+        .format(begin_end=begin_end)
+
     parser.add_argument(
         f"--{begin_end}",
         default=_NOW,
