@@ -1,0 +1,6 @@
+include *.txt *.cfg *.md *.ini
+
+recursive-include crony *
+recursive-include screenshots *
+
+global-exclude *pyc

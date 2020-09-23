@@ -6,13 +6,18 @@ from setuptools import setup, find_packages
 exec(open("./crony/manifest.py").read())
 manifest = locals()
 
+long_description = open('README.rst')
+
 setup(
     name = manifest['pkgname'],
     version = manifest['version'],
     author = "Lee Crosby",
     author_email = "lee.crosby@outlook.com",
+    url='http://github.com/cygnut/crony',
     description = manifest['description'],
-    keywords = "development workflow server maintenance",
+    long_description=long_description,
+    keywords = "development, workflow, server, maintenance",
+    licence = 'MIT License',
     packages = find_packages(),
     python_requires=">=3.6",
     install_requires = [
@@ -25,5 +30,7 @@ setup(
         'console_scripts': [
             'crony = crony.cli:main'
         ]
-    }
+    },
+    # Required for MANIFEST.in to also install e.g. README.md for use in the long_description.
+    include_package_data=True
 )
