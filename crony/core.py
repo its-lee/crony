@@ -17,25 +17,23 @@ class DetailLevel(Enum):
     COUNT = 1
     FULL = 2
 
-def _parse_crontab(file=None, user=None, **kwargs):
+def _parse_crontab(file=None, user=None, tab=None, **kwargs):
     """Parse crontab-related args
 
     Args:
         file (str): A file name containing a crontab
         user (str): A user name to fetch a crontab for
+        tab (str): A string containing the crontab
 
     Returns:
         tuple: A tuple of (human readable crontab source, crontab.CronTab)
     """
-    if not sys.stdin.isatty():
-        # If we're not a tty, then try to read a crontab from stdin.
-        return ('stdin', CronTab(tab=sys.stdin.read()))
-
-    # Else, infer from the supplied args
     if file:
         return (f"file:{file}", CronTab(tabfile=file))
     elif user:
         return (f"user:{user}", CronTab(user=user))
+    elif tab:
+        return ('stdin', CronTab(tab=sys.stdin.read()))
     else:
         # In the case of none of them being passed, we default to the current user.
         return ('user:current', CronTab(user=True))
