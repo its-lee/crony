@@ -10,12 +10,14 @@ import crony.core
 import crony.manifest
 from crony.levelledoption import LevelledOption
 
+# todo: pass in stdin
+# todo: split out args.py so it can be UT'd
 # todo: test dateparser datetime parsing - relative & absolute
 # todo: anything else after playing around with?
 # todo: put required python versions in setup.py
 # todo: add requirements on python & dependencies
 # todo: test all options
-# todo: update README 
+# todo: update README
 
 # todo: travis unit tests + badge
 # https://pypi.org/project/parameterized/
@@ -47,7 +49,7 @@ _DETAIL_LEVELS = LevelledOption('d', [
 # From https://stackoverflow.com/questions/25470844/specify-format-for-input-arguments-argparse-python
 def _valid_datetime(s):
     """Convert an argparse arg to a datetime.
-    
+
     The preferred, most reliable format to use is DEFAULT_DATE_FORMAT and this the one
     which is checked first. However, other formats (relative & absolute) are permitted
     by dateparser.parse().
@@ -66,41 +68,41 @@ def _valid_datetime(s):
         datetime: The parsed datetime
     """
     try:
-        # It took some digging to work out what's actually meant when passing 
-        # the date_formats parameter. The docs make it sound like *only* the 
+        # It took some digging to work out what's actually meant when passing
+        # the date_formats parameter. The docs make it sound like *only* the
         # formats in date_formats are permitted, but it's actually a known format which
         # you inject into the parsing algorithm to attempt before using fallback
         # techniques.
         #
         # It turns out that's essentially what we want.
-        # 
-        # It allows a preferred, reliable absolute datetime format to be attempted 
-        # *before* using any fallback techniques which *might* be able to generate 
+        #
+        # It allows a preferred, reliable absolute datetime format to be attempted
+        # *before* using any fallback techniques which *might* be able to generate
         # a datetime object, but may have done so using an unclear/unknowable
         # format which the user then clearly didn't intend - the principle of least
         # surprise.
-        # 
-        # We'd rather users in that case to use our reliable format and for us to 
+        #
+        # We'd rather users in that case to use our reliable format and for us to
         # know that's the format which will be used - the principle of least surprise.
         #
         # The code below indicates the following parsing order is used, which we're
-        # okay with: 
+        # okay with:
         #   - timestamp (numeric) - fine, that's understandable by a user.
-        #   - relative formats - fine, it's not going accidentally catch other 
+        #   - relative formats - fine, it's not going accidentally catch other
         #     absolute formats, and we want these to work.
-        #   - our reliable absolute format - good, that's what we want. 
-        #   - then any absolute fallbacks - meh, but allows for some flexibility 
+        #   - our reliable absolute format - good, that's what we want.
+        #   - then any absolute fallbacks - meh, but allows for some flexibility
         #     in absolute formats passed.
-        # 
+        #
         # From https://github.com/scrapinghub/dateparser/blob/v0.3.4/dateparser/date.py,
         # in _DateLanguageParser._parse:
-        # 
+        #
         # for parser in (
-        #     self._try_timestamp,          
-        #     self._try_freshness_parser,   
-        #     self._try_given_formats,      
-        #     self._try_dateutil_parser,    
-        #     self._try_hardcoded_formats,  
+        #     self._try_timestamp,
+        #     self._try_freshness_parser,
+        #     self._try_given_formats,
+        #     self._try_dateutil_parser,
+        #     self._try_hardcoded_formats,
         # ):
         dt = dateparser.parse(s, date_formats=[
             crony.core.DEFAULT_DATE_FORMAT
@@ -131,10 +133,10 @@ def _init_logging(args):
     root_logger.setLevel(_LOG_LEVELS.parse(args))
 
 def add_begin_end_argument(parser, begin_end, options):
-    help_ = 'the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted' 
-    parser.add_argument(*options, 
-        default=_NOW, 
-        type=_valid_datetime, 
+    help_ = 'the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted'
+    parser.add_argument(*options,
+        default=_NOW,
+        type=_valid_datetime,
         metavar='\b',
         help=help_.format(type=type)
     )
