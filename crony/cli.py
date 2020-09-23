@@ -10,7 +10,6 @@ import crony.core
 import crony.manifest
 from crony.levelledoption import LevelledOption
 
-# todo: pass in stdin
 # todo: split out args.py so it can be UT'd
 # todo: test dateparser datetime parsing - relative & absolute
 # todo: anything else after playing around with?
