@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 exec(open("./crony/manifest.py").read())
 manifest = locals()
 
-long_description = open('README.md')
+long_description = open('README.md').read()
 
 setup(
     name = manifest['pkgname'],
