@@ -7,12 +7,11 @@ import crony.core
 import crony.manifest
 import crony.args
 
-# todo: test dateparser datetime parsing - relative & absolute
 # todo: anything else after playing around with?
-# todo: put required python versions in setup.py
+# todo: put required python versions in setup.py?
 # todo: add requirements on python & dependencies
 # todo: test all options
-# todo: update README
+# todo: update README with purpose, args, usage etc
 
 # todo: travis unit tests + badge
 # https://pypi.org/project/parameterized/
