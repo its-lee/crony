@@ -3,13 +3,13 @@ from setuptools import setup, find_packages
 
 # https://github.com/microsoft/vscode-recipes/tree/master/debugging%20python
 
-def contents(file):
+def read(file):
     return open(file).read()
 
-exec(contents("./crony/manifest.py"))
+exec(read("./crony/manifest.py"))
 manifest = locals()
 
-long_description = contents('README.md')
+long_description = read('README.md')
 
 install_requires = [
     a.strip()
