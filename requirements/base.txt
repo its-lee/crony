@@ -2,3 +2,4 @@ croniter>=0.3
 python-crontab>=2.5.1
 dateparser>=0.7.6
 packaging>=20.4
+-e .
