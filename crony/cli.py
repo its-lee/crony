@@ -41,6 +41,11 @@ def main():
     try:
         _init_logging()
 
+        # If they just wrote the name of the program, interpret this as the -h option, rather
+        # than running with all default options (which is valid, but not very useful!)
+        if len(sys.argv) == 1:
+            sys.argv.append('-h')
+
         args = crony.args.parse()
 
         # Configure the log level to that passed
