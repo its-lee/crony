@@ -7,6 +7,7 @@ import crony.core
 import crony.manifest
 import crony.args
 
+# continue looking at the croniter stuff for how to do tests!
 # todo: travis unit tests + badge
 # https://pypi.org/project/parameterized/
 # travis ci:
@@ -15,6 +16,10 @@ import crony.args
 #  - https://docs.travis-ci.com/user/languages/python/#dependency-management
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 # add travis badge to readme (any other badges?)
+
+# tests:
+# @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup
+# * * * * * / Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars
 
 # make official release and update README installation section
 
