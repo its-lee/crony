@@ -151,7 +151,10 @@ def parse(args=None):
     )
 
     # Logging options:
-    _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
+    _LOG_LEVELS.add_to_parser(
+        parser,
+        'log at the {level} level'
+    )
 
     # Datetime range:
     _add_begin_end_argument(parser, 'begin')
@@ -192,7 +195,10 @@ def parse(args=None):
         help="only show the command, not the full line"
     )
 
-    _DETAIL_LEVELS.add_to_parser(parser, 'output at the {level} level')
+    _DETAIL_LEVELS.add_to_parser(
+        parser,
+        'output with the level of detail set to: {level}'
+    )
 
     # Get argparse to do its parsing:
     parsed = vars(parser.parse_args(args=args))

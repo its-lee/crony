@@ -17,6 +17,8 @@ import crony.args
 #  - https://docs.travis-ci.com/user/languages/python/#dependency-management
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 
+# make official release and update README installation section
+
 # todo: test: --- this is done - leaving here as this is what we wanna test!
 # todo: test all options, all usages
 
