@@ -88,18 +88,17 @@ def _valid_datetime(s):
             crony.core.DEFAULT_DATE_FORMAT
         ])
         if not dt:
-            raise ValueError(
-                "The following could not be parsed to a datetime: '{s}'.")
+            raise ValueError("The following could not be parsed to a datetime: '{s}'.")
         return dt
     except Exception:
         message = f"Invalid datetime: '{s}'."
         _logger.exception(message)
         raise argparse.ArgumentTypeError(message)
 
-def _add_begin_end_argument(parser, begin_end, options):
+def _add_begin_end_argument(parser, begin_end):
     help_ = 'the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted'
     parser.add_argument(
-        *options,
+        f"--{begin_end}",
         default=_NOW,
         type=_valid_datetime,
         metavar='\b',
@@ -117,6 +116,10 @@ def parse(args=None):
     """
     parser = argparse.ArgumentParser(description=crony.manifest.description)
 
+    # Our rule of thumb is to only use single char options (e.g. -V) for:
+    #   - boolean switches (e.g. --include-disabled, -i)
+    #   - actions (e.g. -V to show the version)
+
     # Version output:
     parser.add_argument(
         '--version', '-V',
@@ -128,18 +131,20 @@ def parse(args=None):
     _LOG_LEVELS.add_to_parser(parser, 'log at the {level} level')
 
     # Datetime range:
-    _add_begin_end_argument(parser, 'begin', ['--begin', '-b'])
-    _add_begin_end_argument(parser, 'end', ['--end', '-e'])
+    _add_begin_end_argument(parser, 'begin')
+    _add_begin_end_argument(parser, 'end')
 
     # Crontab reference - only allow 0 or 1 to remove any ambiguity:
     crontab_group = parser.add_mutually_exclusive_group()
+
     crontab_group.add_argument(
-        '--file', '-f',
+        '--file',
         metavar='\b',
         help="the path to a crontab to be analysed"
     )
+
     crontab_group.add_argument(
-        '--user', '-u',
+        '--user',
         metavar='\b',
         help="the user whose crontab is to be analysed"
     )
