@@ -7,9 +7,6 @@ import crony.core
 import crony.manifest
 import crony.args
 
-# todo: put required python versions in setup.py?
-# todo: add requirements on python & dependencies
-# todo: test all options
 # todo: update README with purpose, args, usage etc
 
 # todo: travis unit tests + badge
