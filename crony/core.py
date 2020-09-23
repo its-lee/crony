@@ -1,7 +1,8 @@
 import sys
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
+import math
 from enum import Enum
 
 from crontab import CronTab
@@ -57,7 +58,10 @@ def _build_header(source=None, begin=None, end=None, **kwargs):
         begin (datetime): The begin datetime
         end (datetime): The end datetime
     """
-    return f"For {source}: {_stringize_datetime(begin)} -> {_stringize_datetime(end)} ({str(end - begin)})"
+    # We don't care about documenting subsecond deltas..
+    delta = abs(end - begin)
+    delta_ignoring_subseconds = timedelta(seconds=math.ceil(delta.total_seconds()))
+    return f"For {source}: {_stringize_datetime(begin)} -> {_stringize_datetime(end)} ({str(delta_ignoring_subseconds)})"
 
 def run(**kwargs):
     """Run the program based on kwargs
