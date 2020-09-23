@@ -11,6 +11,12 @@ manifest = locals()
 
 long_description = contents('README.md')
 
+install_requires = [
+    a.strip()
+    for a in read('requirements/base.txt').splitlines()
+    if a.strip() and not a.startswith(('#', '-'))
+]
+
 setup(
     name = manifest['pkgname'],
     version = manifest['version'],
@@ -23,12 +29,7 @@ setup(
     licence = 'MIT License',
     packages = find_packages(),
     python_requires=">=3.6",
-    install_requires = [
-        'croniter>=0.3',
-        'python-crontab>=2.5.1',
-        'dateparser>=0.7.6',
-        'packaging>=20.4',
-    ],
+    install_requires = install_requires,
     entry_points = {
         'console_scripts': [
             'crony = crony.cli:main'
