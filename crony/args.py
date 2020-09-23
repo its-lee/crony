@@ -107,6 +107,25 @@ def _add_begin_end_argument(parser, begin_end):
         help=help_.format(type=type)
     )
 
+def _reinterpret_args(args):
+    """Reinterpret program args in edge cases as a different set of args.
+
+    This includes the case that no arguments are passed, we want to interpret this as -h,
+    as even though the program can correctly handle this case, it's not very useful!
+
+    Args:
+        args (list): The passed args in the case that we expect them to be passed programmatically
+        rather than automatically fetched from the terminal.
+    """
+    if args is None:
+        # The caller has instructed us to look at argv, so let's do so.
+        if len(sys.argv) == 1:
+            sys.argv.append('-h')
+    else:
+        args = args if args else ['-h']
+
+    return args
+
 def parse(args=None):
     """Parse program args
 
@@ -116,6 +135,8 @@ def parse(args=None):
     Returns:
         dict: The parsed arguments
     """
+    args = _reinterpret_args(args)
+
     parser = argparse.ArgumentParser(description=crony.manifest.description)
 
     # Our rule of thumb is to only use single char options (e.g. -V) for:
@@ -173,9 +194,12 @@ def parse(args=None):
 
     _DETAIL_LEVELS.add_to_parser(parser, 'output at the {level} level')
 
-    args = vars(parser.parse_args())
-    args['log_level'] = _LOG_LEVELS.parse(args)
-    args['detail_level'] = crony.core.DetailLevel[_DETAIL_LEVELS.parse(args)]
-    args['tab'] = None if sys.stdin.isatty() else sys.stdin.read()
+    # Get argparse to do its parsing:
+    parsed = vars(parser.parse_args(args=args))
 
-    return args
+    # Then do some parsing of our own:
+    parsed['log_level'] = _LOG_LEVELS.parse(parsed)
+    parsed['detail_level'] = crony.core.DetailLevel[_DETAIL_LEVELS.parse(parsed)]
+    parsed['tab'] = None if sys.stdin.isatty() else sys.stdin.read()
+
+    return parsed
