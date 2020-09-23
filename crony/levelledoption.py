@@ -5,9 +5,9 @@ class LevelledOption:
     of effect.
 
     For example, log verbosity:
-        -v     Log at the WARNING level
-        -vv    Log at the INFO level
-        -vvv   Log at the DEBUG level
+        --v     Log at the WARNING level
+        --vv    Log at the INFO level
+        --vvv   Log at the DEBUG level
 
     This would require constructing a LevelledOption via:
         LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
@@ -37,7 +37,7 @@ class LevelledOption:
         group = parser.add_mutually_exclusive_group()
         for k, v in self.levels.items():
             group.add_argument(
-                f"-{k}",
+                f"--{k}",
                 default='',
                 action='store_true',
                 help=help_format.format(level=v.lower())
