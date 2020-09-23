@@ -14,11 +14,12 @@ setup(
     description = manifest['description'],
     keywords = "development workflow server maintenance",
     packages = find_packages(),
+    python_requires=">=3.6",
     install_requires = [
-        'croniter',
-        'python-crontab',
-        'dateparser',
-        'packaging',
+        'croniter>=0.3',
+        'python-crontab>=2.5.1',
+        'dateparser>=0.7.6',
+        'packaging>=20.4',
     ],
     entry_points = {
         'console_scripts': [
