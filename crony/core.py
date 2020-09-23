@@ -57,7 +57,7 @@ def _build_header(source=None, begin=None, end=None, **kwargs):
         begin (datetime): The begin datetime
         end (datetime): The end datetime
     """
-    return f"For {source}: {_stringize_datetime(begin)} -> {_stringize_datetime(end)} ({end - begin})"
+    return f"For {source}: {_stringize_datetime(begin)} -> {_stringize_datetime(end)} ({str(end - begin)})"
 
 def run(**kwargs):
     """Run the program based on kwargs
