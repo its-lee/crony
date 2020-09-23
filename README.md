@@ -1,6 +1,10 @@
 # crony
 A simple command line program for reporting on crontab job schedules in a provided datetime interval.
 
+Helpful in the following scenarios:
+- Determining which jobs should have been run during an outage to 'catch up' your system.
+- Forecasting which jobs will run when planning outage/events/other jobs.
+
 ![Screenshot](screenshots/main.png)
 
 ## Installation
