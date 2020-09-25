@@ -3,5 +3,6 @@ include *.txt *.cfg *.md *.ini
 recursive-include crony *
 recursive-include screenshots *
 recursive-include requirements *
+recursive-include tests *
 
 global-exclude *pyc
