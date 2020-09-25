@@ -1,4 +1,6 @@
 # crony
+![Build Status Unavailable](https://travis-ci.com/Cygnut/crony.svg?branch=master)
+
 A simple command line program for reporting on crontab job schedules in a provided datetime interval.
 
 Helpful in the following scenarios:
