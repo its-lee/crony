@@ -24,6 +24,8 @@ import crony.args
 # remove requirements/* ?
 # remove tox.ini if we're not using it!
 
+# add other badges (e.g. coverage, any others?)
+
 # tests:
 # @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup
 # * * * * * / Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars
