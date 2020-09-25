@@ -17,6 +17,9 @@ import crony.args
 # if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
 # add travis badge to readme (any other badges?)
 
+# remove requirements/* ?
+# remove tox.ini if we're not using it!
+
 # tests:
 # @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup
 # * * * * * / Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars
