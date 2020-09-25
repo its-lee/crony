@@ -10,6 +10,8 @@ import crony.args
 # 1
 # 2
 
+# Coverage.py warning: No data was collected. (no-data-collected)
+# The command "coverage run --source=crony setup.py test" exited with 0.
 
 # continue looking at the croniter stuff for how to do tests!
 # todo: travis unit tests + badge
