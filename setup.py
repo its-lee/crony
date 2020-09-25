@@ -1,4 +1,5 @@
 import os
+import sys
 from setuptools import setup, find_packages
 
 # https://github.com/microsoft/vscode-recipes/tree/master/debugging%20python

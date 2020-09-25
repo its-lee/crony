@@ -4,9 +4,6 @@ python:
   - 3.7
   - 3.8
 install:
-  - pwd
-  - ls -lah
-  - ls -lah requirements
   - pip install -r requirements/install.txt
   - pip install -r requirements/test.txt
   - pip install coveralls
