@@ -1,5 +1,6 @@
 # crony
-![Build Status Unavailable](https://travis-ci.com/Cygnut/crony.svg?branch=master)
+![Build Status](https://travis-ci.com/Cygnut/crony.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Cygnut/crony/badge.svg)](https://coveralls.io/github/Cygnut/crony)
 
 A simple command line program for reporting on crontab job schedules in a provided datetime interval.
 
