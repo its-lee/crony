@@ -13,7 +13,7 @@ def to_datetime(s, fmt=None):
 class AnalyserTest(unittest.TestCase):
 
     def test_basic(self):
-        occurrences = cron.analyser.get_job_occurrences(
+        occurrences = crony.analyser.get_job_occurrences(
             crontab=CronTab(tab="* * * * * hiiiii"),
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-02 00:00:00')
