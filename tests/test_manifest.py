@@ -3,8 +3,11 @@ from crony import manifest
 
 class ManifestTest(unittest.TestCase):
 
-    def test_success(self):
-        self.assertEqual('1.0.1', manifest.version)
-
-    #def test_fail(self):
-    #    self.assertEqual(15, -15)
+    def test_pkgname_exists(self):
+        manifest.pkgname
+       
+    def test_version_exists(self):
+        manifest.version
+        
+    def test_description_exists(self):
+        manifest.description
