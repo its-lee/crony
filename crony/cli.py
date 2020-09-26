@@ -10,20 +10,9 @@ import crony.args
 # todo: travis unit tests + badge
 # https://pypi.org/project/parameterized/
 # travis ci:
-# follow:
-#  - https://docs.travis-ci.com/user/tutorial/
-#  - https://docs.travis-ci.com/user/languages/python/#dependency-management
-# if you need to have a requirements.txt - use https://stackoverflow.com/questions/26900328/install-dependencies-from-setup-py
-# add travis badge to readme (any other badges?)
 
 # remove requirements/* ?
 # remove tox.ini if we're not using it!
-
-# add other badges (e.g. coverage, any others?)
-
-# Coverage.py warning: No data was collected. (no-data-collected)
-# The command "coverage run --source=crony setup.py test" exited with 0.
-
 
 # tests:
 # @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup
