@@ -15,9 +15,9 @@ class AnalyserTest(unittest.TestCase):
     def test_basic(self):
         jobs = crony.analyser.get_job_occurrences(
             crontab=CronTab(tab="""
-                * * * * * hiiiii
-                #* * * * * byeeeee
-                1 2 bad_line
+            * * * * * hiiiii
+            #* * * * * byeeeee
+            1 2 bad_line
             """),
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-02 00:00:00'),
