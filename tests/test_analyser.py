@@ -18,5 +18,7 @@ class AnalyserTest(unittest.TestCase):
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-02 00:00:00')
         )
-        list(occurrences)
+        for o in occurrences:
+            o.line
+            o.command
         # TODO: set up some parameterised cases, and edge cases. the only testing done so far catches exceptions
