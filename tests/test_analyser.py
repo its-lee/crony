@@ -13,7 +13,7 @@ def to_datetime(s, fmt=None):
 class AnalyserTest(unittest.TestCase):
 
     def test_basic(self):
-        occurrences = crony.analyser.get_job_occurrences(
+        jobs = crony.analyser.get_job_occurrences(
             crontab=CronTab(tab="""
                 * * * * * hiiiii
                 #* * * * * byeeeee
@@ -23,7 +23,9 @@ class AnalyserTest(unittest.TestCase):
             end=to_datetime('2020-01-02 00:00:00'),
             include_disabled=True
         )
-        for o in occurrences:
-            o.line
-            o.command
+        for job in jobs:
+            job.line
+            job.command
+            for o in job.occurrences:
+                str(o)
         # TODO: set up some parameterised cases, and edge cases. the only testing done so far catches exceptions
