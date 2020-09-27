@@ -14,9 +14,14 @@ class AnalyserTest(unittest.TestCase):
 
     def test_basic(self):
         occurrences = crony.analyser.get_job_occurrences(
-            crontab=CronTab(tab="* * * * * hiiiii"),
+            crontab=CronTab(tab="
+                * * * * * hiiiii
+                #* * * * * byeeeee
+                1 2 bad_line
+            "),
             begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-02 00:00:00')
+            end=to_datetime('2020-01-02 00:00:00'),
+            include_disabled=True
         )
         for o in occurrences:
             o.line
