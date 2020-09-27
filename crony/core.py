@@ -79,6 +79,10 @@ def run(**kwargs):
 
     # Find jobs occurring in the provided datetime range:
     for job in crony.analyser.get_job_occurrences(**kwargs):
+        # We choose to only render jobs with at least one occurrence:
+        if not len(list(job.occurrences)):
+            continue
+
         # Print the command / whole line based on provided options
         print(job.command if kwargs['only_command'] else job.line)
 
