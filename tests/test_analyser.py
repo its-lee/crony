@@ -20,14 +20,15 @@ class AnalyserTest(unittest.TestCase):
 
     def test_basic(self):
         jobs = get_job_occurrences([
-            '* * * * * hiiiii',
-            '#* * * * * byeeeee',
-            'bad_line'
+            '* * * * * enabled',
+            '#* * * * * disabled',
+            'invalid_line'
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-02 00:00:00'),
+            end=to_datetime('2020-01-01 00:00:30'),
             include_disabled=False      # Gets more coverage
         )
+
         for job in jobs:
             job.line
             job.command
