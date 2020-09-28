@@ -12,7 +12,7 @@ def to_datetime(s, fmt=None):
 
 def get_job_occurrences(lines, **kwargs):
     return crony.analyser.get_job_occurrences(
-        crontab.CronTab(tab="\n".join(lines)), 
+        CronTab(tab="\n".join(lines)), 
         **kwargs
         )
 
