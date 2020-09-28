@@ -10,15 +10,17 @@ import crony.analyser
 def to_datetime(s, fmt=None):
     return datetime.strptime(s, fmt if fmt else "%Y-%m-%d %H:%M:%S")
 
+def get_job_occurrences(lines, **kwargs):
+    return crony.analyser.get_job_occurrences("\n".join(lines), **kwargs)
+
 class AnalyserTest(unittest.TestCase):
 
     def test_basic(self):
-        jobs = crony.analyser.get_job_occurrences(
-            crontab=CronTab(tab="""
-            * * * * * hiiiii
-            #* * * * * byeeeee
-            1 2 bad_line
-            """),
+        jobs = get_job_occurrences([
+            '* * * * * hiiiii',
+            '#* * * * * byeeeee',
+            '1 2 bad_line'
+            ],
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-02 00:00:00'),
             include_disabled=True
