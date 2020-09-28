@@ -26,7 +26,7 @@ class AnalyserTest(unittest.TestCase):
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-02 00:00:00'),
-            include_disabled=True
+            include_disabled=False      # Gets more coverage
         )
         for job in jobs:
             job.line
