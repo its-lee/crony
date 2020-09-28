@@ -83,8 +83,10 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
         given time range
     """
     for job in crontab:
-        if not job.is_valid():
-            # Sadly, we can't access what's *in* the line in the python-crontab
+        if not job.is_valid():  # pragma: no cover
+            # Looking at how crontab.CronTab is written, invalid lines are
+            # not included in the iteration.. still, just in case!
+            #   Sadly, we can't access what's *in* the line in the python-crontab
             # package as it doesn't seem to store invalid line data
             _logger.debug(f"Skipping a line as it is not valid")
             continue
