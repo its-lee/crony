@@ -108,8 +108,11 @@ class AnalyserTest(unittest.TestCase):
             )
 
             for job in jobs:
-                print(job.command)
-                print(job.is_valid())
+                print(job.job.command)
+                print(job.job.is_valid())
+
+            for job in jobs:
+                print(job.job)
 
             print('no throw')
         except Exception as e:
