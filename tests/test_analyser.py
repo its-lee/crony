@@ -31,14 +31,14 @@ def get_job_occurrences(lines, **kwargs):
 
 class AnalyserTest(unittest.TestCase):
     @parameterized.expand([
-        ("every minute",            "* * * * *", 31),      # 00, 01, ... , 30
-        ("on the hour",             "0 * * * *", 1),
-        ("on begin boundary",       "0 0 * * *", 1),
-        ("before begin boundary",   "59 23 * * *", 0),
-        ("on end boundary",         "30 0 * * *", 1),        
-        ("after end boundary",      "31 0 * * *", 0),
-        ("really out of schedule",  "59 11 1 1 0", 0),
-        ("commented every minute",  "#* * * * *", 0)
+        param("every minute",            "* * * * *", 31),      # 00, 01, ... , 30
+        param("on the hour",             "0 * * * *", 1),
+        param("on begin boundary",       "0 0 * * *", 1),
+        param("before begin boundary",   "59 23 * * *", 0),
+        param("on end boundary",         "30 0 * * *", 1),        
+        param("after end boundary",      "31 0 * * *", 0),
+        param("really out of schedule",  "59 11 1 1 0", 0),
+        param("commented every minute",  "#* * * * *", 0)
     ])
     def test_single_line(self, _, schedule, expected_occurrence_count):
         expected_command = "it"
