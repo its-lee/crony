@@ -81,7 +81,9 @@ class AnalyserTest(unittest.TestCase):
         for job in jobs:
             job.line
             job.command
-            for o in job.occurrences:
-                str(o)
-        # TODO: finish this test, and edge cases. the only testing done so far catches exceptions
+            len(job.occurrences)
+        # TODO: finish this test. the only testing done so far catches exceptions
+        
+    def test_invalid_crontab_handling(self):
         # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
+        pass
