@@ -38,22 +38,28 @@ class AnalyserTest(unittest.TestCase):
         param("on end boundary",            "30 0 * * *",  1),        
         param("after end boundary",         "31 0 * * *",  0),
         param("really out of schedule",     "59 11 1 1 0", 0),
-        param("disabled, every minute",     "#* * * * *",  0, expected_job_count=0),
+        param("disabled, every minute",     "#* * * * *",  0,   expected_job_count=0),
         param("disabled, every minute, but including disabled",  
-                                            "#* * * * *",  31, expected_job_count=1, include_disabled=True)
+                                            "#* * * * *",  31,  expected_job_count=1, include_disabled=True),
+        # Note that python-crontab logs when it encounters an invalid cron line - 
+        # which shows up in the unit tests. It's not a problem as it's a handled
+        # error internally, so don't bother investigating it!
+        #   0 in position 3 isn't a valid Day Of Month
+        param("invalid cron syntax",        "59 11 0 0 0", 0,   expected_job_count=0),
+        param("empty line",                 "",            0,   expected_job_count=0, command="")
     ])
     def test_single_line(self, 
         _, 
         schedule, 
-        expected_occurrence_count, 
+        expected_occurrence_count,
+        command="it",
         begin="2020-01-01 00:00:00",
         end="2020-01-01 00:30:00",
         include_disabled=False,
         expected_job_count=1,
         ):
-        expected_command = "it"
         jobs = get_job_occurrences([ 
-                f"{schedule} {expected_command}",
+                f"{schedule} {command}",
             ],
             begin=to_datetime(begin),
             end=to_datetime(end),
@@ -64,7 +70,7 @@ class AnalyserTest(unittest.TestCase):
         
         if expected_job_count:
             job = jobs[0]
-            self.assertEqual(expected_command, job.command)
+            self.assertEqual(command, job.command)
             self.assertEqual(expected_occurrence_count, len(job.occurrences))
 
     def test_multi_line(self):
@@ -95,28 +101,3 @@ class AnalyserTest(unittest.TestCase):
 
         # Badly named, this asserts on list length and per-item equality without looking at the order
         self.assertCountEqual(expected, job.occurrences)
-
-    # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
-    def test_invalid_crontab_handling(self):
-        try:
-            jobs = get_job_occurrences([
-                    '* * * * * enabled',
-                    '59 11 0 0 0 invalid_syntax',   # 0 in position 3 isn't a valid Day Of Month
-                ],
-                begin=to_datetime('2020-01-01 00:00:00'),
-                end=to_datetime('2020-01-01 00:30:00')
-            )
-
-            for job in jobs:
-                print(job.job.command)
-                print(job.job.is_valid())
-
-            for job in jobs:
-                print(job.job)
-
-            print('no throw')
-        except Exception as e:
-            print('throws')
-            import traceback
-            traceback.print_exc()
-            print(e)
