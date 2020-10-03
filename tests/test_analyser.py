@@ -41,11 +41,12 @@ class AnalyserTest(unittest.TestCase):
                 '* * * * * enabled',
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-01 00:30:00'),
+            end=to_datetime('2020-01-01 00:03:00'),
             include_disabled=False      # Gets more coverage
         )
 
         self.assertEquals(1, len(jobs))
         job = jobs[0]
         self.assertEquals('enabled', job.command)
-        self.assertEquals(30, len(list(job.occurrences)))
+        self.assertEquals(3, len(list(job.occurrences)))
+        print(list(job.occurrences))
