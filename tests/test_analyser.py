@@ -106,6 +106,11 @@ class AnalyserTest(unittest.TestCase):
                 begin=to_datetime('2020-01-01 00:00:00'),
                 end=to_datetime('2020-01-01 00:30:00')
             )
+
+            for job in jobs:
+                print(job.command)
+                print(job.is_valid())
+
             print('no throw')
         except Exception as e:
             print('throws')
