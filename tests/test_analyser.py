@@ -33,18 +33,18 @@ class AnalyserTest(unittest.TestCase):
     @parameterized.expand([
         param("every minute",               "* * * * *",   31),      # 00, 01, ... , 30
         param("on the hour",                "0 * * * *",   1),
+        param("on the hour, non-standard",  "@hourly",     1),
         param("on begin boundary",          "0 0 * * *",   1),
         param("before begin boundary",      "59 23 * * *", 0),
         param("on end boundary",            "30 0 * * *",  1),        
         param("after end boundary",         "31 0 * * *",  0),
         param("really out of schedule",     "59 11 1 1 0", 0),
-        param("disabled, every minute",     "#* * * * *",  0,   expected_job_count=0),
-        param("disabled, every minute, but including disabled",  
-                                            "#* * * * *",  31,  expected_job_count=1, include_disabled=True),
+        param("disabled",                   "#* * * * *",  0,   expected_job_count=0),
+        param("disabled, but included",     "#* * * * *",  31,  expected_job_count=1, include_disabled=True),
         # Note that python-crontab logs when it encounters an invalid cron line - 
         # which shows up in the unit tests. It's not a problem as it's a handled
         # error internally, so don't bother investigating it!
-        #   0 in position 3 isn't a valid Day Of Month
+        #   Invalid as 0 in position 3 isn't a valid Day Of Month
         param("invalid cron syntax",        "59 11 0 0 0", 0,   expected_job_count=0),
         param("empty line",                 "",            0,   expected_job_count=0, command="")
     ])
