@@ -45,8 +45,8 @@ class AnalyserTest(unittest.TestCase):
             include_disabled=False      # Gets more coverage
         )
 
-        self.assertEquals(1, len(jobs))
+        self.assertEqual(1, len(jobs))
         job = jobs[0]
-        self.assertEquals('enabled', job.command)
-        self.assertEquals(3, len(list(job.occurrences)))
-        print(list(job.occurrences))
+        self.assertEqual('enabled', job.command)
+        self.assertEqual(3, len(job.occurrences))
+        print(job.occurrences)

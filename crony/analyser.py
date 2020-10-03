@@ -16,7 +16,7 @@ class JobOccurrences:
 
         Args:
             job (crontab.CronItem): The occurring job
-            occurrences (generator): The occurrence datetimes
+            occurrences (list): The occurrence datetimes
         """
         self.job = job
         self.occurrences = occurrences
@@ -95,4 +95,4 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
             _logger.debug(f"Skipping {job.command} as it is disabled")
             continue
 
-        yield JobOccurrences(job, _get_occurrences(job, begin, end))
+        yield JobOccurrences(job, list(_get_occurrences(job, begin, end)))
