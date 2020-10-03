@@ -106,7 +106,9 @@ class AnalyserTest(unittest.TestCase):
                 begin=to_datetime('2020-01-01 00:00:00'),
                 end=to_datetime('2020-01-01 00:30:00')
             )
+            print('no throw')
         except Exception as e:
+            print('throws')
             import traceback
             traceback.print_exc()
             print(e)
