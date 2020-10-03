@@ -1,6 +1,6 @@
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from crontab import CronTab
 import unittest
@@ -91,7 +91,7 @@ class AnalyserTest(unittest.TestCase):
         expected = []
         while cur <= end:
             expected.append(cur)
-            cur += datetime.timedelta(minutes=1)
+            cur += timedelta(minutes=1)
 
         # Badly named, this asserts on list length and per-item equality without looking at the order
         self.assertCountEqual(expected, job.occurrences)
