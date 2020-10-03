@@ -96,6 +96,15 @@ class AnalyserTest(unittest.TestCase):
         # Badly named, this asserts on list length and per-item equality without looking at the order
         self.assertCountEqual(expected, job.occurrences)
 
+    # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
     def test_invalid_crontab_handling(self):
-        # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
-        pass
+        try:
+            jobs = get_job_occurrences([
+                    '* * * * * enabled',
+                    '59 11 0 0 0 invalid_syntax',   # 0 in position 3 isn't a valid Day Of Month
+                ],
+                begin=to_datetime('2020-01-01 00:00:00'),
+                end=to_datetime('2020-01-01 00:30:00')
+            )
+        except Exception as e:
+            print(e)
