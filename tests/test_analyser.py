@@ -18,7 +18,32 @@ def get_job_occurrences(lines, **kwargs):
         ))
 
 class AnalyserTest(unittest.TestCase):
-    def test_basic(self):
+    @parameterized.expand([
+        ("every minute",            "* * * * *", 31),      # 00, 01, ... , 30
+        ("on the hour",             "0 * * * *", 1),
+        ("on begin boundary",       "0 0 * * *", 1),
+        ("before begin boundary",   "59 23 * * *", 0),
+        ("on end boundary",         "30 0 * * *", 1),        
+        ("after end boundary",      "31 0 * * *", 0),
+        ("really out of schedule",  "59 11 0 0 0", 0)
+
+    ])
+    def test_single_line(self, _, schedule, expected_occurrence_count):
+        expected_command = "it"
+        jobs = get_job_occurrences([ 
+                f"{schedule} {expected_command}",
+            ],
+            begin=to_datetime('2020-01-01 00:00:00'),
+            end=to_datetime('2020-01-01 00:30:00'),
+            include_disabled=False      # Gets more coverage
+        )
+
+        self.assertEqual(1, len(jobs))
+        job = jobs[0]
+        self.assertEqual(expected_command, job.command)
+        self.assertEqual(expected_occurrence_count, len(job.occurrences))
+
+    def test_multi_line(self):
         jobs = get_job_occurrences([
                 '* * * * * enabled',
                 '#* * * * * disabled',
@@ -34,24 +59,4 @@ class AnalyserTest(unittest.TestCase):
             job.command
             for o in job.occurrences:
                 str(o)
-        # TODO: set up some parameterised cases, and edge cases. the only testing done so far catches exceptions
-
-    @parameterized.expand([
-        ("every minute", "* * * * *", 4),      # 00, 01, 02, 03
-        ("on the hour", "0 * * * *", 1),
-        ("out of schedule", "59 11 0 0 0", 0)
-    ])
-    def test_single_line(self, _, schedule, expected_occurrence_count):
-        expected_command = "it"
-        jobs = get_job_occurrences([ 
-                f"{schedule} {expected_command}",
-            ],
-            begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-01 00:03:00'),
-            include_disabled=False      # Gets more coverage
-        )
-
-        self.assertEqual(1, len(jobs))
-        job = jobs[0]
-        self.assertEqual(expected_command, job.command)
-        self.assertEqual(expected_occurrence_count, len(job.occurrences))
+        # TODO: finish this test, and edge cases. the only testing done so far catches exceptions
