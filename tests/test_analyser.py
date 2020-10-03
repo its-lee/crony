@@ -68,13 +68,16 @@ class AnalyserTest(unittest.TestCase):
             self.assertEqual(expected_occurrence_count, len(job.occurrences))
 
     def test_multi_line(self):
+        begin = to_datetime('2020-01-01 00:00:00')
+        end = to_datetime('2020-01-01 00:30:00')
+
         jobs = get_job_occurrences([
                 '* * * * * enabled # enabled comment',
                 '#* * * * * disabled # disabled comment',
                 'invalid_line'
             ],
-            begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-01 00:30:00'),
+            begin=begin,
+            end=end,
             include_disabled=False      # Gets more coverage
         )
 
@@ -83,8 +86,15 @@ class AnalyserTest(unittest.TestCase):
         self.assertEqual('enabled', job.command)
         self.assertEqual('* * * * * enabled # enabled comment', job.line)
         self.assertEqual(31, len(job.occurrences))
-        # TODO: check all entries in that ^^
-        
+
+        cur = begin
+        expected = []
+        while cur <= end:
+            expected.append(cur)
+            cur += datetime.timedelta(minutes=1)
+
+        self.assertCountEqual(expected, job.occurrences)
+
     def test_invalid_crontab_handling(self):
         # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
         pass
