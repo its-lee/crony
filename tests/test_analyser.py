@@ -41,8 +41,9 @@ class AnalyserTest(unittest.TestCase):
         ("on the hour", "0 * 0 0 0", 1)
     ])
     def test_single_line(self, _, schedule, expected_occurrence_count):
+        expected_command = "it"
         jobs = get_job_occurrences([ 
-                f"{schedule} it",
+                f"{schedule} {expected_command}",
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-01 00:03:00'),
@@ -51,5 +52,5 @@ class AnalyserTest(unittest.TestCase):
 
         self.assertEqual(1, len(jobs))
         job = jobs[0]
-        self.assertEqual('it', job.command)
+        self.assertEqual(expected_command, job.command)
         self.assertEqual(expected_occurrence_count, len(job.occurrences))
