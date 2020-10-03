@@ -107,4 +107,6 @@ class AnalyserTest(unittest.TestCase):
                 end=to_datetime('2020-01-01 00:30:00')
             )
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(e)
