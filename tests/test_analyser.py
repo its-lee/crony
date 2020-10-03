@@ -40,7 +40,7 @@ class AnalyserTest(unittest.TestCase):
         param("really out of schedule",     "59 11 1 1 0", 0),
         param("disabled, every minute",     "#* * * * *",  0, expected_job_count=0),
         param("disabled, every minute, but including disabled",  
-                                            "#* * * * *",  0, expected_job_count=1, include_disabled=True)
+                                            "#* * * * *",  31, expected_job_count=1, include_disabled=True)
     ])
     def test_single_line(self, 
         _, 
