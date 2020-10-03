@@ -38,7 +38,8 @@ class AnalyserTest(unittest.TestCase):
 
     @parameterized.expand([
         ("every minute", "* * * * *", 4),      # 00, 01, 02, 03
-        ("on the hour", "0 * * * *", 1)
+        ("on the hour", "0 * * * *", 1),
+        ("out of schedule", "59 11 0 0 0", 0)
     ])
     def test_single_line(self, _, schedule, expected_occurrence_count):
         expected_command = "it"
