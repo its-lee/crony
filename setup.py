@@ -38,7 +38,7 @@ setup(
     description=manifest['description'],
     long_description=read('README.md'),
     keywords="development, workflow, server, maintenance",
-    licence='MIT License',
+    license='MIT License',
     packages=find_packages(),
     python_requires=">=3.6",
     install_requires=requires('install'),
