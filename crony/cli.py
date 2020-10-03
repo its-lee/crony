@@ -7,14 +7,8 @@ import crony.core
 import crony.manifest
 import crony.args
 
-# todo: travis unit tests + badge
-# https://pypi.org/project/parameterized/
-# travis ci:
-
-# remove requirements/* ?
-
 # make official release and update README installation section
-        
+
 # TODO: test: --- this is done - leaving here as this is what we wanna test!
 # TODO: test all options, all usages
 # TODO: Address all TODO-s
