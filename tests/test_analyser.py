@@ -31,23 +31,33 @@ def get_job_occurrences(lines, **kwargs):
 
 class AnalyserTest(unittest.TestCase):
     @parameterized.expand([
-        param("every minute",            "* * * * *",   31),      # 00, 01, ... , 30
-        param("on the hour",             "0 * * * *",   1),
-        param("on begin boundary",       "0 0 * * *",   1),
-        param("before begin boundary",   "59 23 * * *", 0),
-        param("on end boundary",         "30 0 * * *",  1),        
-        param("after end boundary",      "31 0 * * *",  0),
-        param("really out of schedule",  "59 11 1 1 0", 0),
-        param("commented every minute",  "#* * * * *",  0, expected_job_count=0)
+        param("every minute",               "* * * * *",   31),      # 00, 01, ... , 30
+        param("on the hour",                "0 * * * *",   1),
+        param("on begin boundary",          "0 0 * * *",   1),
+        param("before begin boundary",      "59 23 * * *", 0),
+        param("on end boundary",            "30 0 * * *",  1),        
+        param("after end boundary",         "31 0 * * *",  0),
+        param("really out of schedule",     "59 11 1 1 0", 0),
+        param("disabled, every minute",     "#* * * * *",  0, expected_job_count=0),
+        param("disabled, every minute, but including disabled",  
+                                            "#* * * * *",  0, expected_job_count=1, include_disabled=True)
     ])
-    def test_single_line(self, _, schedule, expected_occurrence_count, expected_job_count=1):
+    def test_single_line(self, 
+        _, 
+        schedule, 
+        expected_occurrence_count, 
+        begin="2020-01-01 00:00:00",
+        end="2020-01-01 00:30:00",
+        include_disabled=False,
+        expected_job_count=1,
+        ):
         expected_command = "it"
         jobs = get_job_occurrences([ 
                 f"{schedule} {expected_command}",
             ],
-            begin=to_datetime('2020-01-01 00:00:00'),
-            end=to_datetime('2020-01-01 00:30:00'),
-            include_disabled=False
+            begin=to_datetime(begin),
+            end=to_datetime(end),
+            include_disabled=include_disabled
         )
 
         self.assertEqual(expected_job_count, len(jobs))
