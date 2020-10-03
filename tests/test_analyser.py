@@ -69,8 +69,8 @@ class AnalyserTest(unittest.TestCase):
 
     def test_multi_line(self):
         jobs = get_job_occurrences([
-                '* * * * * enabled',
-                '#* * * * * disabled',
+                '* * * * * enabled # enabled comment',
+                '#* * * * * disabled # disabled comment',
                 'invalid_line'
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
@@ -78,11 +78,12 @@ class AnalyserTest(unittest.TestCase):
             include_disabled=False      # Gets more coverage
         )
 
-        for job in jobs:
-            job.line
-            job.command
-            len(job.occurrences)
-        # TODO: finish this test. the only testing done so far catches exceptions
+        self.assertEqual(1, len(jobs))
+        job = jobs[0]
+        self.assertEqual('enabled', job.command)
+        self.assertEqual('* * * * * enabled # enabled comment', job.line)
+        self.assertEqual(31, len(job.occurrences))
+        # TODO: check all entries in that ^^
         
     def test_invalid_crontab_handling(self):
         # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
