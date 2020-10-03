@@ -2,8 +2,9 @@ import sys
 import os
 from datetime import datetime
 
-import unittest
 from crontab import CronTab
+import unittest
+from parameterized import parameterized
 
 import crony.analyser
 
@@ -17,7 +18,6 @@ def get_job_occurrences(lines, **kwargs):
         ))
 
 class AnalyserTest(unittest.TestCase):
-
     def test_basic(self):
         jobs = get_job_occurrences([
                 '* * * * * enabled',
@@ -36,9 +36,13 @@ class AnalyserTest(unittest.TestCase):
                 str(o)
         # TODO: set up some parameterised cases, and edge cases. the only testing done so far catches exceptions
 
-    def test_even_more_basic(self):
-        jobs = get_job_occurrences([
-                '* * * * * enabled',
+    @parameterized.expand([
+        ("every minute", "* * * * *", 4),      # 00, 01, 02, 03
+        ("on the hour", "0 * 0 0 0", 1)
+    ])
+    def test_single_line(self, _, schedule, expected_occurrence_count):
+        jobs = get_job_occurrences([ 
+                f"{schedule} it",
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-01 00:03:00'),
@@ -47,6 +51,5 @@ class AnalyserTest(unittest.TestCase):
 
         self.assertEqual(1, len(jobs))
         job = jobs[0]
-        self.assertEqual('enabled', job.command)
-        self.assertEqual(4, len(job.occurrences))   # 00, 01, 02, 03
-        print(job.occurrences)
+        self.assertEqual('it', job.command)
+        self.assertEqual(expected_occurrence_count, len(job.occurrences))
