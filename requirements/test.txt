@@ -1,2 +1,2 @@
 unittest2>=1.1.0
-parameterized
+parameterized>=0.7.4
