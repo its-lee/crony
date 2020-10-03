@@ -31,16 +31,16 @@ def get_job_occurrences(lines, **kwargs):
 
 class AnalyserTest(unittest.TestCase):
     @parameterized.expand([
-        param("every minute",            "* * * * *", 31),      # 00, 01, ... , 30
-        param("on the hour",             "0 * * * *", 1),
-        param("on begin boundary",       "0 0 * * *", 1),
+        param("every minute",            "* * * * *",   31),      # 00, 01, ... , 30
+        param("on the hour",             "0 * * * *",   1),
+        param("on begin boundary",       "0 0 * * *",   1),
         param("before begin boundary",   "59 23 * * *", 0),
-        param("on end boundary",         "30 0 * * *", 1),        
-        param("after end boundary",      "31 0 * * *", 0),
+        param("on end boundary",         "30 0 * * *",  1),        
+        param("after end boundary",      "31 0 * * *",  0),
         param("really out of schedule",  "59 11 1 1 0", 0),
-        param("commented every minute",  "#* * * * *", 0)
+        param("commented every minute",  "#* * * * *",  0, expected_job_count=0)
     ])
-    def test_single_line(self, _, schedule, expected_occurrence_count):
+    def test_single_line(self, _, schedule, expected_occurrence_count, expected_job_count=1):
         expected_command = "it"
         jobs = get_job_occurrences([ 
                 f"{schedule} {expected_command}",
@@ -50,10 +50,12 @@ class AnalyserTest(unittest.TestCase):
             include_disabled=False
         )
 
-        self.assertEqual(1, len(jobs))
-        job = jobs[0]
-        self.assertEqual(expected_command, job.command)
-        self.assertEqual(expected_occurrence_count, len(job.occurrences))
+        self.assertEqual(expected_job_count, len(jobs))
+        
+        if expected_job_count:
+            job = jobs[0]
+            self.assertEqual(expected_command, job.command)
+            self.assertEqual(expected_occurrence_count, len(job.occurrences))
 
     def test_multi_line(self):
         jobs = get_job_occurrences([
