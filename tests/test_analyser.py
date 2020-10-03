@@ -4,7 +4,7 @@ from datetime import datetime
 
 from crontab import CronTab
 import unittest
-from parameterized import parameterized
+from parameterized import parameterized, param
 
 import crony.analyser
 
@@ -37,8 +37,8 @@ class AnalyserTest(unittest.TestCase):
         ("before begin boundary",   "59 23 * * *", 0),
         ("on end boundary",         "30 0 * * *", 1),        
         ("after end boundary",      "31 0 * * *", 0),
-        ("really out of schedule",  "59 11 1 0 0", 0),
-        ("commented every minute",  "#* * * * *", 31)
+        ("really out of schedule",  "59 11 1 1 0", 0),
+        ("commented every minute",  "#* * * * *", 0)
     ])
     def test_single_line(self, _, schedule, expected_occurrence_count):
         expected_command = "it"
