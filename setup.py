@@ -42,7 +42,7 @@ setup(
     packages=find_packages(),
     python_requires=">=3.6",
     install_requires=requires('install'),
-    test_requires=requires('test'),
+    tests_require=requires('test'),
     entry_points={
         'console_scripts': [
             'crony = crony.cli:main'
