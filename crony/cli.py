@@ -13,10 +13,6 @@ import crony.args
 
 # remove requirements/* ?
 
-# tests:
-# @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup
-# * * * * * / Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars
-
 # make official release and update README installation section
 # TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
         
