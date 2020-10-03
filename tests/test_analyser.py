@@ -25,8 +25,8 @@ class AnalyserTest(unittest.TestCase):
         ("before begin boundary",   "59 23 * * *", 0),
         ("on end boundary",         "30 0 * * *", 1),        
         ("after end boundary",      "31 0 * * *", 0),
-        ("really out of schedule",  "59 11 0 0 0", 0)
-
+        ("really out of schedule",  "59 11 0 0 0", 0),
+        ("commented every minute",  "#* * * * *", 31)
     ])
     def test_single_line(self, _, schedule, expected_occurrence_count):
         expected_command = "it"
@@ -35,7 +35,7 @@ class AnalyserTest(unittest.TestCase):
             ],
             begin=to_datetime('2020-01-01 00:00:00'),
             end=to_datetime('2020-01-01 00:30:00'),
-            include_disabled=False      # Gets more coverage
+            include_disabled=False
         )
 
         self.assertEqual(1, len(jobs))
