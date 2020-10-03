@@ -12,7 +12,6 @@ import crony.args
 # travis ci:
 
 # remove requirements/* ?
-# remove tox.ini if we're not using it!
 
 # tests:
 # @hourly / Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup

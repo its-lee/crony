@@ -78,8 +78,8 @@ class AnalyserTest(unittest.TestCase):
         end = to_datetime('2020-01-01 00:30:00')
 
         jobs = get_job_occurrences([
-                '* * * * * enabled # enabled comment',
-                '#* * * * * disabled # disabled comment',
+                '* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars',
+                '#@hourly /Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup',
                 'invalid_line'
             ],
             begin=begin,
@@ -89,8 +89,8 @@ class AnalyserTest(unittest.TestCase):
 
         self.assertEqual(1, len(jobs))
         job = jobs[0]
-        self.assertEqual('enabled', job.command)
-        self.assertEqual('* * * * * enabled # enabled comment', job.line)
+        self.assertEqual('/Users/dog/scan-dog-files > /dev/null 2 > &1', job.command)
+        self.assertEqual('* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars', job.line)
         self.assertEqual(31, len(job.occurrences))
 
         cur = begin
