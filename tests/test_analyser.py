@@ -93,6 +93,7 @@ class AnalyserTest(unittest.TestCase):
             expected.append(cur)
             cur += datetime.timedelta(minutes=1)
 
+        # Badly named, this asserts on list length and per-item equality without looking at the order
         self.assertCountEqual(expected, job.occurrences)
 
     def test_invalid_crontab_handling(self):
