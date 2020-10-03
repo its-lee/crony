@@ -48,5 +48,5 @@ class AnalyserTest(unittest.TestCase):
         self.assertEqual(1, len(jobs))
         job = jobs[0]
         self.assertEqual('enabled', job.command)
-        self.assertEqual(3, len(job.occurrences))
+        self.assertEqual(4, len(job.occurrences))   # 00, 01, 02, 03
         print(job.occurrences)

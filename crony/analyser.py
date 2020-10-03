@@ -74,14 +74,20 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
 
     Args:
         crontab (crontab.CronTab): A parsed crontab
-        begin (datetime): The datetime to start analysing at
-        end (datetime): The datetime to end analysing at
+        begin (datetime): The datetime to start analysing at (inclusive)
+        end (datetime): The datetime to end analysing at (inclusive)
         include_disabled (bool): Also analyse enabled jobs?
 
     Yields:
         list: A list of Jobs, one for each job found to be scheduled in the
         given time range
     """
+    # 'Hacky' treatment to ensure that the passed minute is included in the schedule
+    # if it were to match a crontab - python-crontab seems to not include it! 
+    # E.g. if the begin time = 00:00:00 and end = 00:01:00 and the crontab is * * * * *
+    # you'd only get the second minute as being in the schedule.
+    begin -= datetime.timedelta(minutes=1)
+
     for job in crontab:
         if not job.is_valid():  # pragma: no cover
             # Looking at how crontab.CronTab is written, invalid lines are
