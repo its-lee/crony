@@ -14,9 +14,7 @@ import crony.args
 # remove requirements/* ?
 
 # make official release and update README installation section
-# TODO: Handle this - "59 11 0 0 0" which is an invalid cron line - we should probably update the code to emit this better
         
-# TODO: test things like @hourly etc
 # TODO: test: --- this is done - leaving here as this is what we wanna test!
 # TODO: test all options, all usages
 # TODO: Address all TODO-s
