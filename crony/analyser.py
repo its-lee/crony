@@ -86,7 +86,9 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
     # if it were to match a crontab - python-crontab seems to not include it! 
     # E.g. if the begin time = 00:00:00 and end = 00:01:00 and the crontab is * * * * *
     # you'd only get the second minute as being in the schedule.
-    begin -= datetime.timedelta(minutes=1)
+    #   We'll try to be as safe as possible about this to avoid weird datetimes..
+    begin = datetime.datetime(begin.year, begin.month, begin.day, begin.hour, begin.minute, 0, 0)
+    begin -= datetime.timedelta(seconds=1)
 
     for job in crontab:
         if not job.is_valid():  # pragma: no cover
