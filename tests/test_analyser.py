@@ -48,4 +48,4 @@ class AnalyserTest(unittest.TestCase):
         self.assertEquals(1, len(jobs))
         job = jobs[0]
         self.assertEquals('enabled', job.command)
-        self.assertEquals(30, len(job.occurrences))
+        self.assertEquals(30, len(list(job.occurrences)))
