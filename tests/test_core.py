@@ -23,7 +23,7 @@ _BOOLEAN_VALUES = [ True, False ]
 def _permute(*dimensions):
     perms = list(itertools.product(*dimensions))
     return [
-        [ '_'.join(perm), *perm ]
+        [ '_'.join([ str(p) for p in perm ]), *perm ]
         for perm in perms
     ]
 
