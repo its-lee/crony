@@ -14,16 +14,20 @@ _logger = logging.getLogger(__name__)
 
 _NOW = datetime.now()
 
+_DEFAULT_LOG_LEVEL = 'ERROR'
+
 _LOG_LEVELS = LevelledOption('v', [
     'WARNING',
     'INFO',
     'DEBUG'
-], default='ERROR')
+], default=_DEFAULT_LOG_LEVEL)
+
+_DEFAULT_DETAIL_LEVEL = crony.core.DetailLevel.NONE.name
 
 _DETAIL_LEVELS = LevelledOption('d', [
     crony.core.DetailLevel.COUNT.name,
     crony.core.DetailLevel.FULL.name
-], default=crony.core.DetailLevel.NONE.name)
+], default=_DEFAULT_DETAIL_LEVEL)
 
 def _valid_datetime(s):
     """Convert an argparse arg to a datetime.

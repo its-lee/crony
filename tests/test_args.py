@@ -20,7 +20,9 @@ class ArgsTest(unittest.TestCase):
             "include_disabled": True, "exclude_header": True, "only_command": True 
         }),
         param("defaults",           [ "--vvv" ],                            { 
-            "include_disabled": False, "exclude_header": False, "only_command": False, "begin": args._NOW, "end": args._NOW 
+            "include_disabled": False, "exclude_header": False, "only_command": False, 
+            "begin": args._NOW, "end": args._NOW, "detail_level": args._DEFAULT_DETAIL_LEVEL,
+            "log_level": args._DEFAULT_LOG_LEVEL
         }),
     ])
     def test_args(self, _, args_, expected):
