@@ -61,14 +61,14 @@ class CoreTest(unittest.TestCase):
         }
         core.run(**{ **base_kwargs, **kwargs })
 
-    @parameterized.expand([
+    @parameterized.expand(
         _permute(
             [ d for d in core.DetailLevel ],
             _BOOLEAN_VALUES,
             _BOOLEAN_VALUES,
             _BOOLEAN_VALUES
         )
-    ])
+    )
     def test_core_doesnt_die_with_all_permutations(self, _, detail_level, include_disabled, exclude_header, only_command):
         print({
             "detail_level": detail_level,
