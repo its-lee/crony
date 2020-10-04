@@ -8,7 +8,7 @@ from crony import args
 class ArgsTest(unittest.TestCase):
     # TODO: More tests here
     @parameterized.expand([
-        param("no default, no value",   [ '--vvv' ], { 'log_level': 'DEBUG' }),
+        param("log level",   [ '--vvv' ], { 'log_level': 'DEBUG' }),
     ])
     def test_args(self, _, args_, expected):
         actual = args.parse(args_)
