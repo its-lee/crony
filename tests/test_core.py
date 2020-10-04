@@ -25,6 +25,9 @@ class CoreTest(unittest.TestCase):
         param("detail level full", { **simple_args, "detail_level": core.DetailLevel.FULL }),
 
         param("has a job which won't run", { "file": simple_filepath, "begin": "2020-01-01 01:23:45", "end": "2020-01-01 01:24:45" }),
+
+        param("stdin emulation", { "tab": "* * * * * awoo", "begin": "2020-01-01 00:00:00", "end": "2020-01-01 00:23:45" })
+        
     ])
     def test_core_doesnt_die(self, _, kwargs):
         # Convert to actual datetime objects
