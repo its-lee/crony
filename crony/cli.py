@@ -9,10 +9,9 @@ import crony.args
 
 # make official release and update README installation section
 # TODO: resolve use of requiments (why can't we just use what's listed in setup.py?)
-# TODO: test: --- this is done - leaving here as this is what we wanna test!
 # TODO: test all options, all usages
-# TODO: Address all TODO-s
 # TODO: code style (black?) + badge
+# TODO: Address all TODO-s
 
 _logger = logging.getLogger(__name__)
 
