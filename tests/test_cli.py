@@ -4,14 +4,9 @@ import unittest
 from parameterized import parameterized, param
 
 from crony import cli
+from util import write_temp_crontab
 
-def _write_temp_crontab(tab):
-    filepath = "/tmp/test-crontab-" + str(datetime.timestamp(datetime.now()))
-    with open(filepath, "w") as f:
-        f.write(tab)
-    return filepath
-
-simple_filepath = _write_temp_crontab("* * * * * woof")
+simple_filepath = write_temp_crontab("* * * * * woof")
 
 # Don't do anything crazy here - the correct level of testing is on core.py, as cli.py translates errors etc to exit codes,
 # which aren't very testable.
