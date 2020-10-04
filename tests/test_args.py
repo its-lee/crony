@@ -15,9 +15,9 @@ class ArgsTest(unittest.TestCase):
         param("end",                [ '--end="2019-02-03 02:34:56"' ],      { 'end': datetime.datetime(2019, 2, 3, 2, 34, 56, 0) }),
         param("file",               [ '--file=/usr/dog/crontab' ],          { 'file': '/usr/dog/crontab' }),
         param("user",               [ '--user=dog' ],                       { 'user': 'user' }),
-        param("include-disabled",   [ '--include-disabled'],                { 'include_disabled': True }),
-        param("exclude-header",     [ '--exclude-header'],                  { 'include_header': True }),
-        param("only-command",       [ '--only-command'],                    { 'only_command': True })
+        param("include-disabled",   [ '--include-disabled' ],               { 'include_disabled': True }),
+        param("exclude-header",     [ '--exclude-header' ],                 { 'include_header': True }),
+        param("only-command",       [ '--only-command' ],                   { 'only_command': True })
     ])
     def test_args(self, _, args_, expected):
         actual = args.parse(args_)
