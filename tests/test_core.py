@@ -51,7 +51,7 @@ class CoreTest(unittest.TestCase):
 
     @parameterized.expand(
         _permute(
-            [ d for d in core.DetailLevel ],
+            list(core.DetailLevel),
             _BOOLEAN_VALUES,
             _BOOLEAN_VALUES,
             _BOOLEAN_VALUES
