@@ -21,12 +21,11 @@ _SIMPLE_ARGS = { "file": _SIMPLE_FILEPATH, "begin": to_datetime("2020-01-01 00:0
 _BOOLEAN_VALUES = [ True, False ]
 
 def _permute(*dimensions):
-    perms = list(itertools.product(*dimensions))
     # In addition to the permutations, the first item in the tuple must be a name, 
     # preferably somewhat linked to the permutation.
     return [
         ( '_'.join([ str(p) for p in perm ]), *perm )
-        for perm in perms
+        for perm in itertools.product(*dimensions)
     ]
 
 class CoreTest(unittest.TestCase):
