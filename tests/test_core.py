@@ -16,9 +16,10 @@ class CoreTest(unittest.TestCase):
     ])
     def test_core_doesnt_die(self, _, kwargs):
         # Ensure defaults are present, and allow them to be overriden in the same way as on the command line.
-        kwargs = {
+        base_kwargs = {
             "include_disabled": False,
             "exclude_header": False,
             "only_command": False
-        }.update(kwargs)
-        core.run(**kwargs)
+        }
+        base_kwargs.update(kwargs)
+        core.run(**base_kwargs)
