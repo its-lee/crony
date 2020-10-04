@@ -18,7 +18,12 @@ class ArgsTest(unittest.TestCase):
         param("include-disabled",   [ "--include-disabled" ],               { "include_disabled": True }),
         param("exclude-header",     [ "--exclude-header" ],                 { "exclude_header": True }),
         param("only-command",       [ "--only-command" ],                   { "only_command": True }),
-        param("all flags",          [ "-ixc" ],                             { "include_disabled": True, "exclude_header": True, "only_command": True }),
+        param("all flags",          [ "-ixc" ],                             { 
+            "include_disabled": True, "exclude_header": True, "only_command": True 
+        }),
+        param("defaults",           [ "--vvv" ],                            { 
+            "include_disabled": False, "exclude_header": False, "only_command": False, "begin": args._NOW, "end": args._NOW 
+        }),
     ])
     def test_args(self, _, args_, expected):
         actual = args.parse(args_)
