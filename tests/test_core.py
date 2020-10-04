@@ -27,6 +27,14 @@ def _permute(*dimensions):
         for perm in perms
     ]
 
+perms = _permute(
+    [ d for d in core.DetailLevel ],
+    _BOOLEAN_VALUES,
+    _BOOLEAN_VALUES,
+    _BOOLEAN_VALUES
+)    
+
+print(perms)
 
 class CoreTest(unittest.TestCase):
     @parameterized.expand([
