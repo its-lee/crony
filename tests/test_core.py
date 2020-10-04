@@ -29,15 +29,6 @@ def _permute(*dimensions):
         for perm in perms
     ]
 
-perms = _permute(
-    [ d for d in core.DetailLevel ],
-    _BOOLEAN_VALUES,
-    _BOOLEAN_VALUES,
-    _BOOLEAN_VALUES
-)    
-
-print(perms)
-
 class CoreTest(unittest.TestCase):
     @parameterized.expand([
         param("detail level none", { **_SIMPLE_ARGS, "detail_level": core.DetailLevel.NONE }),
@@ -67,16 +58,9 @@ class CoreTest(unittest.TestCase):
         )
     )
     def test_core_doesnt_die_with_all_permutations(self, _, detail_level, include_disabled, exclude_header, only_command):
-        print({
-            "detail_level": detail_level,
-            "include_disabled": include_disabled,
-            "exclude_header": exclude_header,
-            "only_command": only_command            
-        })
-
         core.run(**{
             "detail_level": detail_level,
             "include_disabled": include_disabled,
             "exclude_header": exclude_header,
-            "only_command": only_command            
+            "only_command": only_command
         , **_SIMPLE_ARGS })
