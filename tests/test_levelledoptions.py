@@ -13,7 +13,7 @@ class ManifestTest(unittest.TestCase):
         param("no default, --vv",       "--vv",  "INFO"),
         param("no default, --vvv",      "--vvv", "DEBUG"),
 
-        param("default, no value",      None,    None,      default="ERROR"),
+        param("default, no value",      None,    "ERROR",   default="ERROR"),
         param("default, --v",           "--v",   "WARNING", default="ERROR"),
         param("default, --vv",          "--vv",  "INFO",    default="ERROR"),
         param("default, --vvv",         "--vvv", "DEBUG",   default="ERROR"),
