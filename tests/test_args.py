@@ -16,7 +16,7 @@ class ArgsTest(unittest.TestCase):
         param("file",               [ "--file=/usr/dog/crontab" ],          { "file": "/usr/dog/crontab" }),
         param("user",               [ "--user=dog" ],                       { "user": "dog" }),
         param("include-disabled",   [ "--include-disabled" ],               { "include_disabled": True }),
-        param("exclude-header",     [ "--exclude-header" ],                 { "include_header": True }),
+        param("exclude-header",     [ "--exclude-header" ],                 { "exclude_header": True }),
         param("only-command",       [ "--only-command" ],                   { "only_command": True })
     ])
     def test_args(self, _, args_, expected):
