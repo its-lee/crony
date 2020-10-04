@@ -69,17 +69,20 @@ def run(**kwargs):
     Args:
         kwargs (dict): Keyword args
     """
-    # Parse args:
+    # Parse args
     (kwargs['source'], kwargs['crontab']) = _parse_crontab(**kwargs)
 
-    # Print the header if not excluded:
+    # Print the header if not excluded
     if not kwargs['exclude_header']:
         print(_build_header(**kwargs))
         print()
 
-    # Find jobs occurring in the provided datetime range:
+    # Get the detail level, with a default
+    detail_level = kwargs.get('detail_level', DetailLevel.NONE).value
+
+    # Find jobs occurring in the provided datetime range
     for job in crony.analyser.get_job_occurrences(**kwargs):
-        # We choose to only render jobs with at least one occurrence:
+        # We choose to only render jobs with at least one occurrence
         if not len(list(job.occurrences)):
             continue
 
@@ -87,9 +90,9 @@ def run(**kwargs):
         print(job.command if kwargs['only_command'] else job.line)
 
         # Also supply any other configured detail:
-        if kwargs['detail_level'].value >= DetailLevel.COUNT.value:
+        if detail_level >= DetailLevel.COUNT.value:
             print(f"\tOccurrences: {len(job.occurrences)}")
 
-        if kwargs['detail_level'].value >= DetailLevel.FULL.value:
+        if detail_level >= DetailLevel.FULL.value:
             for occurrence in job.occurrences:
                 print("\t\t" + _stringize_datetime(occurrence))
