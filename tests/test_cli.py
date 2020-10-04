@@ -7,7 +7,7 @@ from parameterized import parameterized, param
 from crony import cli
 from tests.util import write_temp_crontab
 
-simple_filepath = write_temp_crontab("* * * * * woof")
+simple_filepath = write_temp_crontab([ "* * * * * woof" ])
 
 # Don't do anything crazy here - the correct level of testing is on core.py, as cli.py translates errors etc to exit codes,
 # which aren't very testable.

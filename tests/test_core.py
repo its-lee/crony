@@ -8,7 +8,7 @@ from crony import core
 
 from tests.util import write_temp_crontab, to_datetime
 
-simple_filepath = write_temp_crontab("* * * * * woof")
+simple_filepath = write_temp_crontab([ "* * * * * woof" ])
 simple_args = { "file": simple_filepath, "begin": "2020-01-01 00:00:00", "end": "2020-02-01 01:23:45" }
 
 class CoreTest(unittest.TestCase):
