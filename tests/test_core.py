@@ -21,5 +21,4 @@ class CoreTest(unittest.TestCase):
             "exclude_header": False,
             "only_command": False
         }
-        base_kwargs.update(kwargs)
-        core.run(**base_kwargs)
+        core.run(**{ **base_kwargs, **kwargs })
