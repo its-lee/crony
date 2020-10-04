@@ -25,18 +25,19 @@ def _init_logging():
     ))
     logging.getLogger().addHandler(handler)
 
-def main():
+def main(args=None):
     """The application entry point
     """
     try:
         _init_logging()
 
-        args = crony.args.parse()
+        parsed_args = crony.args.parse(args)
 
         # Configure the log level to that passed
-        logging.getLogger().setLevel(args['log_level'])
+        logging.getLogger().setLevel(parsed_args['log_level'])
+        
         # Run the main program
-        crony.core.run(**args)
+        crony.core.run(**parsed_args)
 
     except KeyboardInterrupt:
         sys.exit(0)
