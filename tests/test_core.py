@@ -13,7 +13,9 @@ simple_filepath = write_temp_crontab([
     "0 0 1 1 0 should_rarely_run"    # We want this for coverage, to show a line shouldn't be emitted in that case.
 ])
 
-simple_args = { "file": simple_filepath, "begin": "2020-01-01 00:00:00", "end": "2020-01-01 01:23:45" }
+# Don't make the date range too large, else when testing will full output, there will be too much output
+# in the test runner to make sense of anything!
+simple_args = { "file": simple_filepath, "begin": "2020-01-01 00:00:00", "end": "2020-01-01 00:23:45" }
 
 class CoreTest(unittest.TestCase):
     # TODO: thorough tests here
