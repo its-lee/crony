@@ -1,6 +1,8 @@
 from datetime import datetime
 import unittest
 
+from parameterized import parameterized, param
+
 from crony import cli
 
 def _write_temp_crontab(tab):
@@ -9,12 +11,11 @@ def _write_temp_crontab(tab):
         f.write(tab)
     return filepath
 
-class CliTest(unittest.TestCase):
-    def test_cli_doesnt_die(self):
-        filepath = _write_temp_crontab("* * * * * woof")
+simple_filepath = _write_temp_crontab("* * * * * woof")
 
-        cli.main([ 
-            f"--file={filepath}",
-            f"--begin=\"2020-01-01 00:00:00\"",
-            f"--end=\"2020-02-01 01:23:45\""
-        ])
+class CliTest(unittest.TestCase):
+    @parameterized.expand([
+        param("simple", f"--file={simple_filepath} --begin=\"2020-01-01 00:00:00\" --end=\"2020-02-01 01:23:45\"")
+    ])
+    def test_cli_doesnt_die(self, _, args):
+        cli.main(args.split(" "))
