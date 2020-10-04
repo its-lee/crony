@@ -117,7 +117,7 @@ def _reinterpret_args(args):
         args (list): The passed args in the case that we expect them to be passed programmatically
         rather than automatically fetched from the terminal.
     """
-    if args is None:
+    if args is None:    # pragma: no cover
         # We can't capture this in unit testing, as it causes the program to exit.
         # The caller has instructed us to look at argv, so let's do so.
         if len(sys.argv) == 1:
