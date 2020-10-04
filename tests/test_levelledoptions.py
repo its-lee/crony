@@ -6,7 +6,6 @@ from parameterized import parameterized, param
 from crony import levelledoption
 
 class LevelledOptionsTest(unittest.TestCase):
-
     @parameterized.expand([
         param("no default, no value",   None,    None),
         param("no default, --v",        "--v",   "WARNING"),
