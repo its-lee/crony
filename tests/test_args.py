@@ -9,6 +9,7 @@ from crony import args
 class ArgsTest(unittest.TestCase):
     @parameterized.expand([
         param("log level",          [ "--vvv" ],                            { "log_level": "DEBUG" }),
+        param("default log level",  [ "--user=dog" ],                       { "log_level": args._DEFAULT_LOG_LEVEL }),
         param("begin",              [ "--begin=\"2020-01-02 01:23:45\"" ],  { "begin": datetime.datetime(2020, 1, 2, 1, 23, 45, 0) }),
         param("end",                [ "--end=\"2019-02-03 02:34:56\"" ],    { "end": datetime.datetime(2019, 2, 3, 2, 34, 56, 0) }),
         param("file",               [ "--file=/usr/dog/crontab" ],          { "file": "/usr/dog/crontab" }),
@@ -22,7 +23,6 @@ class ArgsTest(unittest.TestCase):
         param("defaults",           [ "--vvv" ],                            { 
             "include_disabled": False, "exclude_header": False, "only_command": False, 
             "begin": args._NOW, "end": args._NOW, "detail_level": args._DEFAULT_DETAIL_LEVEL,
-            "log_level": args._DEFAULT_LOG_LEVEL
         }),
     ])
     def test_args(self, _, args_, expected):
