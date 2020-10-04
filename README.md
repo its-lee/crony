@@ -1,7 +1,7 @@
 # crony
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/Cygnut/crony.svg?branch=master)](https://travis-ci.com/github/Cygnut/crony)
-[![Coverage Status](https://coveralls.io/repos/github/Cygnut/crony/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/Cygnut/crony)
+[![Coverage Status](https://coveralls.io/repos/github/Cygnut/crony/badge.svg?branch=master&service=github&kill_cache=1)](https://coveralls.io/github/Cygnut/crony)
 [![PyUp Status](https://pyup.io/repos/github/Cygnut/crony/shield.svg)](https://pyup.io/account/repos/github/Cygnut/crony)
 
 A simple command line program for reporting on crontab job schedules in a provided datetime interval.
