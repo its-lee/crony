@@ -4,7 +4,7 @@ import unittest
 from crony import cli
 
 def _write_temp_crontab(tab):
-    filepath = "/tmp/test-crontab-" + datetime.timestamp(datetime.now())
+    filepath = "/tmp/test-crontab-" + str(datetime.timestamp(datetime.now()))
     with open(filepath, "w") as f:
         f.write(tab)
     return filepath
