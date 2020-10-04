@@ -10,9 +10,14 @@ class ArgsTest(unittest.TestCase):
     # TODO: More tests here
     # TODO: Test defaults
     @parameterized.expand([
-        param("log level",  [ '--vvv' ], { 'log_level': 'DEBUG' }),
-        param("begin",      [ '--begin="2020-01-02 01:23:45"' ], { 'begin': datetime.datetime(2020, 1, 2, 1, 23, 45, 0) }),
-        param("end",        [ '--end="2019-02-03 02:34:56"' ], { 'end': datetime.datetime(2019, 2, 3, 2, 34, 56, 0) }),
+        param("log level",          [ '--vvv' ],                            { 'log_level': 'DEBUG' }),
+        param("begin",              [ '--begin="2020-01-02 01:23:45"' ],    { 'begin': datetime.datetime(2020, 1, 2, 1, 23, 45, 0) }),
+        param("end",                [ '--end="2019-02-03 02:34:56"' ],      { 'end': datetime.datetime(2019, 2, 3, 2, 34, 56, 0) }),
+        param("file",               [ '--file=/usr/dog/crontab' ],          { 'file': '/usr/dog/crontab' }),
+        param("user",               [ '--user=dog' ],                       { 'user': 'user' }),
+        param("include-disabled",   [ '--include-disabled'],                { 'include_disabled': True }),
+        param("exclude-header",     [ '--exclude-header'],                  { 'include_header': True }),
+        param("only-command",       [ '--only-command'],                    { 'only_command': True })
     ])
     def test_args(self, _, args_, expected):
         actual = args.parse(args_)
