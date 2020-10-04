@@ -22,12 +22,12 @@ _LOG_LEVELS = LevelledOption('v', [
     'DEBUG'
 ], default=_DEFAULT_LOG_LEVEL)
 
-_DEFAULT_DETAIL_LEVEL = crony.core.DetailLevel.NONE.name
+_DEFAULT_DETAIL_LEVEL = crony.core.DetailLevel.NONE
 
 _DETAIL_LEVELS = LevelledOption('d', [
     crony.core.DetailLevel.COUNT.name,
     crony.core.DetailLevel.FULL.name
-], default=_DEFAULT_DETAIL_LEVEL)
+], default=_DEFAULT_DETAIL_LEVEL.name)
 
 def _valid_datetime(s):
     """Convert an argparse arg to a datetime.
