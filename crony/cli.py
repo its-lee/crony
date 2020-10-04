@@ -35,15 +35,15 @@ def main(args=None):
 
         # Configure the log level to that passed
         logging.getLogger().setLevel(parsed_args['log_level'])
-        
+
         # Run the main program
         crony.core.run(**parsed_args)
 
-    except KeyboardInterrupt:
+    except KeyboardInterrupt:   # pragma: no cover
         sys.exit(0)
-    except Exception:
+    except Exception:   # pragma: no cover
         _logger.exception("An error has been encountered:")
         sys.exit(1)
 
 if __name__ == '__main__':
-    main()
+    main()  # pragma: no cover
