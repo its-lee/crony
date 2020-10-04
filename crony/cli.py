@@ -12,6 +12,7 @@ import crony.args
 # TODO: test: --- this is done - leaving here as this is what we wanna test!
 # TODO: test all options, all usages
 # TODO: Address all TODO-s
+# TODO: code style (black?) + badge
 
 _logger = logging.getLogger(__name__)
 
