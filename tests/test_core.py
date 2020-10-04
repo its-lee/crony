@@ -16,7 +16,7 @@ _SIMPLE_FILEPATH = write_temp_crontab([
 
 # Don't make the date range too large, else when testing will full output, there will be too much output
 # in the test runner to make sense of anything!
-_SIMPLE_ARGS = { "file": _SIMPLE_FILEPATH, "begin": "2020-01-01 00:00:00", "end": "2020-01-01 00:23:45" }
+_SIMPLE_ARGS = { "file": _SIMPLE_FILEPATH, "begin": to_datetime("2020-01-01 00:00:00"), "end": to_datetime("2020-01-01 00:23:45") }
 
 _BOOLEAN_VALUES = [ True, False ]
 
@@ -44,16 +44,11 @@ class CoreTest(unittest.TestCase):
         param("detail level count", { **_SIMPLE_ARGS, "detail_level": core.DetailLevel.COUNT }),
         param("detail level full", { **_SIMPLE_ARGS, "detail_level": core.DetailLevel.FULL }),
 
-        param("has a job which won't run", { "file": _SIMPLE_FILEPATH, "begin": "2020-01-01 01:23:45", "end": "2020-01-01 01:24:45" }),
+        param("has a job which won't run", { "file": _SIMPLE_FILEPATH, "begin": to_datetime("2020-01-01 01:23:45"), "end": to_datetime("2020-01-01 01:24:45") }),
 
-        param("stdin emulation", { "tab": "* * * * * awoo", "begin": "2020-01-01 00:00:00", "end": "2020-01-01 00:23:45" })
+        param("stdin emulation", { "tab": "* * * * * awoo", "begin": to_datetime("2020-01-01 00:00:00"), "end": to_datetime("2020-01-01 00:23:45") })
     ])
     def test_core_doesnt_die(self, _, kwargs):
-        # Convert to actual datetime objects
-        for key in [ "begin", "end" ]:
-            if key in kwargs:
-                kwargs[key] = to_datetime(kwargs[key])
-
         # Ensure defaults are present, and allow them to be overriden in the same way as on the command line.
         base_kwargs = {
             "detail_level": core.DetailLevel.NONE,
