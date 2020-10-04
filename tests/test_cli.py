@@ -13,8 +13,8 @@ class CliTest(unittest.TestCase):
     def test_cli_doesnt_die(self):
         filepath = _write_temp_crontab("* * * * * woof")
 
-        cli.main({
-            "file": filepath,
-            "begin": datetime(2020, 1, 1, 0, 0, 0, 0),
-            "end": datetime(2020, 2, 1, 0, 0, 0, 0)
-        })
+        cli.main([ 
+            f"--file={filepath}",
+            f"--begin=\"2020-01-01 00:00:00\"",
+            f"--end=\"2020-02-01 01:23:45\""
+        ])
