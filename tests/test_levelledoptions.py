@@ -19,8 +19,8 @@ class LevelledOptionsTest(unittest.TestCase):
     ])
     def test_levelledoptions(self, _, arg, expected, default=None):
         lo = levelledoption.LevelledOption(
-            'v', 
-            [ 'WARNING', 'INFO', 'DEBUG' ],
+            "v", 
+            [ "WARNING", "INFO", "DEBUG" ],
             default=default
         )
         
@@ -29,10 +29,10 @@ class LevelledOptionsTest(unittest.TestCase):
         # no arg linked to the levelled option to see what the default value would be
         #   If we don't have this, we'd end up passing no args, which would cause
         # argparse to exit immediately with a help message.
-        parser.add_argument('--dummy', action='store_true')
+        parser.add_argument("--dummy", action="store_true")
         lo.add_to_parser(parser, "blah {level}")
 
-        args = [ '--dummy' ]
+        args = [ "--dummy" ]
         if arg is not None:
             args.append(arg)
 

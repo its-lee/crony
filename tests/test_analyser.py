@@ -72,13 +72,13 @@ class AnalyserTest(unittest.TestCase):
             self.assertEqual(expected_occurrence_count, len(job.occurrences))
 
     def test_multi_line(self):
-        begin = to_datetime('2020-01-01 00:00:00')
-        end = to_datetime('2020-01-01 00:30:00')
+        begin = to_datetime("2020-01-01 00:00:00")
+        end = to_datetime("2020-01-01 00:30:00")
 
         jobs = get_job_occurrences([
-                '* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars',
-                '#@hourly /Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup',
-                'invalid_line'
+                "* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars",
+                "#@hourly /Users/dog/full-barkup - abc > /dev/null 2 > &1  # Full hourly barkup",
+                "invalid_line"
             ],
             begin=begin,
             end=end,
@@ -87,8 +87,8 @@ class AnalyserTest(unittest.TestCase):
 
         self.assertEqual(1, len(jobs))
         job = jobs[0]
-        self.assertEqual('/Users/dog/scan-dog-files > /dev/null 2 > &1', job.command)
-        self.assertEqual('* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars', job.line)
+        self.assertEqual("/Users/dog/scan-dog-files > /dev/null 2 > &1", job.command)
+        self.assertEqual("* * * * * /Users/dog/scan-dog-files > /dev/null 2 > &1 # Check dog files for erroars", job.line)
         self.assertEqual(31, len(job.occurrences))
 
         cur = begin

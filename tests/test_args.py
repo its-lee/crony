@@ -34,9 +34,9 @@ class ArgsTest(unittest.TestCase):
         self.assertDictEqual(subset, expected)
 
     @parameterized.expand([
-        param("empty",      [], [ '-h' ]),
-        param("not empty",  [ '--vvv' ], [ '--vvv' ]),
-    ])
+        param("empty",      [], [ "-h" ]),
+        param("not empty",  [ "--vvv" ], [ "--vvv" ]),
+    ]) 
     def test_reinterpret_args(self, _, args_, expected):
         actual = args._reinterpret_args(args_)
         self.assertListEqual(expected, actual)

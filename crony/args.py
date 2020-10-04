@@ -14,17 +14,17 @@ _logger = logging.getLogger(__name__)
 
 _NOW = datetime.now()
 
-_DEFAULT_LOG_LEVEL = 'ERROR'
+_DEFAULT_LOG_LEVEL = "ERROR"
 
-_LOG_LEVELS = LevelledOption('v', [
-    'WARNING',
-    'INFO',
-    'DEBUG'
+_LOG_LEVELS = LevelledOption("v", [
+    "WARNING",
+    "INFO",
+    "DEBUG"
 ], default=_DEFAULT_LOG_LEVEL)
 
 _DEFAULT_DETAIL_LEVEL = crony.core.DetailLevel.NONE
 
-_DETAIL_LEVELS = LevelledOption('d', [
+_DETAIL_LEVELS = LevelledOption("d", [
     crony.core.DetailLevel.COUNT.name,
     crony.core.DetailLevel.FULL.name
 ], default=_DEFAULT_DETAIL_LEVEL.name)
@@ -100,14 +100,14 @@ def _valid_datetime(s):
         raise argparse.ArgumentTypeError(message)
 
 def _add_begin_end_argument(parser, begin_end):
-    help_ = ('the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted'
+    help_ = ("the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted"
         .format(begin_end=begin_end))
 
     parser.add_argument(
         f"--{begin_end}",
         default=_NOW,
         type=_valid_datetime,
-        metavar='\b',
+        metavar="\b",
         help=help_.format(type=type)
     )
 
@@ -125,9 +125,9 @@ def _reinterpret_args(args):
         # We can't capture this in unit testing, as it causes the program to exit.
         # The caller has instructed us to look at argv, so let's do so.
         if len(sys.argv) == 1:
-            sys.argv.append('-h')
+            sys.argv.append("-h")
     else:
-        args = args if args else [ '-h' ]
+        args = args if args else [ "-h" ]
 
     return args
 
@@ -150,67 +150,67 @@ def parse(args=None):
 
     # Version output:
     parser.add_argument(
-        '--version', '-V',
-        action='version',
+        "--version", "-V",
+        action="version",
         version=f"{crony.manifest.pkgname}@{crony.manifest.version}"
     )
 
     # Logging options:
     _LOG_LEVELS.add_to_parser(
         parser,
-        'log at the {level} level'
+        "log at the {level} level"
     )
 
     # Datetime range:
-    _add_begin_end_argument(parser, 'begin')
-    _add_begin_end_argument(parser, 'end')
+    _add_begin_end_argument(parser, "begin")
+    _add_begin_end_argument(parser, "end")
 
     # Crontab reference - only allow 0 or 1 to remove any ambiguity:
     crontab_group = parser.add_mutually_exclusive_group()
 
     crontab_group.add_argument(
-        '--file',
-        metavar='\b',
+        "--file",
+        metavar="\b",
         help="the path to a crontab to be analysed"
     )
 
     crontab_group.add_argument(
-        '--user',
-        metavar='\b',
+        "--user",
+        metavar="\b",
         help="the user whose crontab is to be analysed"
     )
 
     # Disabled options:
     parser.add_argument(
-        '--include-disabled', '-i',
-        action='store_true',
+        "--include-disabled", "-i",
+        action="store_true",
         help="also include disabled cron jobs"
     )
 
     # Output options:
     parser.add_argument(
-        '--exclude-header', '-x',
-        action='store_true',
+        "--exclude-header", "-x",
+        action="store_true",
         help="exclude the header from the output"
     )
 
     parser.add_argument(
-        '--only-command', '-c',
-        action='store_true',
+        "--only-command", "-c",
+        action="store_true",
         help="only show the command, not the full line"
     )
 
     _DETAIL_LEVELS.add_to_parser(
         parser,
-        'output with the level of detail set to: {level}'
+        "output with the level of detail set to: {level}"
     )
 
     # Get argparse to do its parsing:
     parsed = vars(parser.parse_args(args=args))
 
     # Then do some parsing of our own:
-    parsed['log_level'] = _LOG_LEVELS.parse(parsed)
-    parsed['detail_level'] = crony.core.DetailLevel[_DETAIL_LEVELS.parse(parsed)]
-    parsed['tab'] = None if sys.stdin.isatty() else sys.stdin.read()
+    parsed["log_level"] = _LOG_LEVELS.parse(parsed)
+    parsed["detail_level"] = crony.core.DetailLevel[_DETAIL_LEVELS.parse(parsed)]
+    parsed["tab"] = None if sys.stdin.isatty() else sys.stdin.read()
 
     return parsed

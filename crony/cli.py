@@ -22,7 +22,7 @@ def _init_logging():
     # Set up the stderr log handler:
     handler = logging.StreamHandler()
     handler.setFormatter(logging.Formatter(
-        '%(asctime)s | %(name)25s | %(levelname)5s | %(message)s'
+        "%(asctime)s | %(name)25s | %(levelname)5s | %(message)s"
     ))
     logging.getLogger().addHandler(handler)
 
@@ -35,7 +35,7 @@ def main(args=None):
         parsed_args = crony.args.parse(args)
 
         # Configure the log level to that passed
-        logging.getLogger().setLevel(parsed_args['log_level'])
+        logging.getLogger().setLevel(parsed_args["log_level"])
 
         # Run the main program
         crony.core.run(**parsed_args)
@@ -46,5 +46,5 @@ def main(args=None):
         _logger.exception("An error has been encountered:")
         sys.exit(1)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()  # pragma: no cover

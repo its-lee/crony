@@ -34,10 +34,10 @@ def _parse_crontab(file=None, user=None, tab=None, **kwargs):
     elif user:
         return (f"user:{user}", CronTab(user=user))
     elif tab:
-        return ('stdin', CronTab(tab=tab))
+        return ("stdin", CronTab(tab=tab))
     else:
         # In the case of none of them being passed, we default to the current user.
-        return ('user:current', CronTab(user=True))
+        return ("user:current", CronTab(user=True))
 
 def _stringize_datetime(dt):
     """Convert a datetime to the default format used
@@ -70,15 +70,15 @@ def run(**kwargs):
         kwargs (dict): Keyword args
     """
     # Parse args
-    (kwargs['source'], kwargs['crontab']) = _parse_crontab(**kwargs)
+    (kwargs["source"], kwargs["crontab"]) = _parse_crontab(**kwargs)
 
     # Print the header if not excluded
-    if not kwargs['exclude_header']:
+    if not kwargs["exclude_header"]:
         print(_build_header(**kwargs))
         print()
 
     # Get the detail level, with a default
-    detail_level = kwargs.get('detail_level', DetailLevel.NONE).value
+    detail_level = kwargs.get("detail_level", DetailLevel.NONE).value
 
     # Find jobs occurring in the provided datetime range
     for job in crony.analyser.get_job_occurrences(**kwargs):
@@ -87,7 +87,7 @@ def run(**kwargs):
             continue
 
         # Print the command / whole line based on provided options
-        print(job.command if kwargs['only_command'] else job.line)
+        print(job.command if kwargs["only_command"] else job.line)
 
         # Also supply any other configured detail:
         if detail_level >= DetailLevel.COUNT.value:

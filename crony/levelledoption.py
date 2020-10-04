@@ -10,7 +10,7 @@ class LevelledOption:
         --vvv   Log at the DEBUG level
 
     This would require constructing a LevelledOption via:
-        LevelledOption('v', ['WARNING', 'INFO', 'DEBUG'])
+        LevelledOption("v", [ "WARNING", "INFO", "DEBUG" ])
     """
 
     def __init__(self, char, values, default=None):
@@ -38,8 +38,8 @@ class LevelledOption:
         for k, v in self.levels.items():
             group.add_argument(
                 f"--{k}",
-                default='',
-                action='store_true',
+                default="",
+                action="store_true",
                 help=help_format.format(level=v.lower())
             )
 

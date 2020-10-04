@@ -96,7 +96,7 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
             # not included in the iteration.. still, just in case!
             #   Sadly, we can't access what's *in* the line in the python-crontab
             # package as it doesn't seem to store invalid line data
-            _logger.debug(f"Skipping a line as it is not valid")
+            _logger.debug("Skipping a line as it is not valid")
             continue
 
         if not (job.is_enabled() or include_disabled):
