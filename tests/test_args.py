@@ -15,5 +15,5 @@ class ArgsTest(unittest.TestCase):
 
         # We're happy to just assert that the expected args are contained
         # in the actual ones.
-        subset = { k:v for k, v in actual.items() if k in expected }
+        subset = { k: v for k, v in actual.items() if k in expected }
         self.assertDictEqual(subset, expected)
