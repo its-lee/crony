@@ -5,3 +5,6 @@ def write_temp_crontab(tab):
     with open(filepath, "w") as f:
         f.write(tab)
     return filepath
+
+def to_datetime(s, fmt=None):
+    return datetime.strptime(s, fmt if fmt else "%Y-%m-%d %H:%M:%S")    

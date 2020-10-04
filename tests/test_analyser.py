@@ -6,6 +6,7 @@ import unittest
 from crontab import CronTab
 from parameterized import parameterized, param
 
+from tests.util import to_datetime
 import crony.analyser
 
 # A reminder on the cron format:
@@ -19,9 +20,6 @@ import crony.analyser
 # │ │ │ │ │
 # │ │ │ │ │
 # * * * * * <command to execute>
-
-def to_datetime(s, fmt=None):
-    return datetime.strptime(s, fmt if fmt else "%Y-%m-%d %H:%M:%S")
 
 def get_job_occurrences(lines, **kwargs):
     return list(crony.analyser.get_job_occurrences(
