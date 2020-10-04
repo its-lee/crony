@@ -16,36 +16,36 @@ def requires(file):
     return [
         a.strip()
         for a in read(f"requirements/{file}.txt").splitlines()
-        if a.strip() and not a.startswith(('#', '-'))
+        if a.strip() and not a.startswith(("#", "-"))
     ]
 
 exec(read("./crony/manifest.py"))
 manifest = locals()
 
 # Sync from .travis.yml to tox.ini:
-if sys.argv[-1] == 'syncci':
+if sys.argv[-1] == "syncci":
     os.system("panci --to=tox .travis.yml > tox.ini")
     sys.exit()
 
 setup(
-    name=manifest['pkgname'],
-    version=manifest['version'],
+    name=manifest["pkgname"],
+    version=manifest["version"],
     author="Lee Crosby",
     author_email="lee.crosby@outlook.com",
     maintainer="Lee Crosby",
     maintainer_email="lee.crosby@outlook.com",
-    url='http://github.com/cygnut/crony',
-    description=manifest['description'],
-    long_description=read('README.md'),
+    url="http://github.com/cygnut/crony",
+    description=manifest["description"],
+    long_description=read("README.md"),
     keywords="development, workflow, server, maintenance",
-    license='MIT License',
+    license="MIT License",
     packages=find_packages(),
     python_requires=">=3.6",
-    install_requires=requires('install'),
-    tests_require=requires('test'),
+    install_requires=requires("install"),
+    tests_require=requires("test"),
     entry_points={
-        'console_scripts': [
-            'crony = crony.cli:main'
+        "console_scripts": [
+            "crony = crony.cli:main"
         ]
     },
     # Required for MANIFEST.in to also install e.g. README.md for use in the long_description.
