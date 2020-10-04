@@ -21,3 +21,11 @@ class ArgsTest(unittest.TestCase):
         # in the actual ones.
         subset = { k: v for k, v in actual.items() if k in expected }
         self.assertDictEqual(subset, expected)
+
+    @parameterized.expand([
+        param("empty",      [], [ '-h' ]),
+        param("not empty",  [ '--vvv' ], [ '--vvv' ]),
+    ])
+    def test_reinterpret_args(self, _, args_, expected):
+        actual = args._reinterpret_args(args_)
+        self.assertListEqual(expected, actual)
