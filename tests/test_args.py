@@ -40,3 +40,11 @@ class ArgsTest(unittest.TestCase):
     def test_reinterpret_args(self, _, args_, expected):
         actual = args._reinterpret_args(args_)
         self.assertListEqual(expected, actual)
+
+    @parameterized.expand([
+        param("not a datetime", "asdfasf"),
+        param("bad relative datetime", "+3 craps"),
+    ])
+    def test_invalid_datetime(self, _, datetime_str):
+        with self.assertRaises(argparse.ArgumentTypeError):
+            args._valid_datetime(datetime_str)
