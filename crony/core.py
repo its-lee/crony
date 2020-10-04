@@ -77,8 +77,8 @@ def run(**kwargs):
         print(_build_header(**kwargs))
         print()
 
-    # Get the detail level, with a default
-    detail_level = kwargs.get("detail_level", DetailLevel.NONE).value
+    # Get the detail level
+    detail_level = kwargs["detail_level"].value
 
     # Find jobs occurring in the provided datetime range
     for job in crony.analyser.get_job_occurrences(**kwargs):
