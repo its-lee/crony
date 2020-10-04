@@ -5,7 +5,7 @@ import shlex
 from parameterized import parameterized, param
 
 from crony import cli
-from util import write_temp_crontab
+from tests.util import write_temp_crontab
 
 simple_filepath = write_temp_crontab("* * * * * woof")
 
