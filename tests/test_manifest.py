@@ -1,8 +1,8 @@
 import unittest
+
 from crony import manifest
 
 class ManifestTest(unittest.TestCase):
-
     def test_pkgname_exists(self):
         manifest.pkgname
        

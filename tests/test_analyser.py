@@ -1,9 +1,9 @@
 import sys
 import os
 from datetime import datetime, timedelta
+import unittest
 
 from crontab import CronTab
-import unittest
 from parameterized import parameterized, param
 
 import crony.analyser
