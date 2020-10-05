@@ -8,7 +8,6 @@ import crony.manifest
 import crony.args
 
 # make official release and update README installation section
-# TODO: resolve use of requirements (why can't we just use what's listed in setup.py?)
 # TODO: test all options, all usages
 # TODO: code style (black?) + badge
 # TODO: Address all TODO-s
