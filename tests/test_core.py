@@ -2,6 +2,7 @@ from datetime import datetime
 import unittest
 import shlex
 import itertools
+import io
 
 from parameterized import parameterized, param
 
@@ -9,7 +10,7 @@ from crony import core
 
 from tests.util import write_temp_crontab, to_datetime
 
-_SIMPLE_FILEPATH = write_temp_crontab([ 
+_SIMPLE_FILEPATH = write_temp_crontab([
     "* * * * * woof",
     "0 0 1 1 0 should_rarely_run"    # We want this for coverage, to show a line shouldn't be emitted in that case.
 ])
@@ -21,12 +22,25 @@ _SIMPLE_ARGS = { "file": _SIMPLE_FILEPATH, "begin": to_datetime("2020-01-01 00:0
 _BOOLEAN_VALUES = [ True, False ]
 
 def _permute(*dimensions):
-    # In addition to the permutations, the first item in the tuple must be a name, 
+    # In addition to the permutations, the first item in the tuple must be a name,
     # preferably somewhat linked to the permutation.
     return [
         ( '_'.join([ str(p) for p in perm ]), *perm )
         for perm in itertools.product(*dimensions)
     ]
+
+def _run(opts):
+    """Do core.run, but with the output redirected to a return value
+
+    Args:
+        opts (dict): The run options
+
+    Returns:
+        str: The output normally presented to the user
+    """
+    stream = io.StringIO()
+    core.run(stream=stream, **opts)
+    return stream.getvalue()
 
 class CoreTest(unittest.TestCase):
     @parameterized.expand([
@@ -46,7 +60,7 @@ class CoreTest(unittest.TestCase):
             "exclude_header": False,
             "only_command": False
         }
-        core.run(**{ **base_kwargs, **kwargs })
+        _run({ **base_kwargs, **kwargs })
 
     @parameterized.expand(
         _permute(
@@ -57,7 +71,7 @@ class CoreTest(unittest.TestCase):
         )
     )
     def test_core_doesnt_die_with_all_permutations(self, _, detail_level, include_disabled, exclude_header, only_command):
-        core.run(**{
+        _run({
             "detail_level": detail_level,
             "include_disabled": include_disabled,
             "exclude_header": exclude_header,

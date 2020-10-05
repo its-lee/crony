@@ -11,7 +11,6 @@ import crony.args
 # TODO: resolve use of requiments (why can't we just use what's listed in setup.py?)
 # TODO: test all options, all usages
 # TODO: code style (black?) + badge
-# TODO: Resolve all the print output in tests
 # TODO: Address all TODO-s
 
 _logger = logging.getLogger(__name__)

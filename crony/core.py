@@ -63,7 +63,8 @@ def _build_header(source=None, begin=None, end=None, **kwargs):
     delta_ignoring_subseconds = timedelta(seconds=math.ceil(delta.total_seconds()))
     return f"For {source}: {_stringize_datetime(begin)} -> {_stringize_datetime(end)} ({str(delta_ignoring_subseconds)})"
 
-def run(**kwargs):
+
+def run(stream=sys.stdout, **kwargs):
     """Run the program based on kwargs
 
     Args:
@@ -72,10 +73,13 @@ def run(**kwargs):
     # Parse args
     (kwargs["source"], kwargs["crontab"]) = _parse_crontab(**kwargs)
 
+    # Here's a helper for printing
+    _print = lambda *args, **kwargs: print(*args, file=stream, **kwargs)
+
     # Print the header if not excluded
     if not kwargs["exclude_header"]:
-        print(_build_header(**kwargs))
-        print()
+        _print(_build_header(**kwargs))
+        _print()
 
     # Get the detail level
     detail_level = kwargs["detail_level"].value
@@ -87,12 +91,12 @@ def run(**kwargs):
             continue
 
         # Print the command / whole line based on provided options
-        print(job.command if kwargs["only_command"] else job.line)
+        _print(job.command if kwargs["only_command"] else job.line)
 
         # Also supply any other configured detail:
         if detail_level >= DetailLevel.COUNT.value:
-            print(f"\tOccurrences: {len(job.occurrences)}")
+            _print(f"\tOccurrences: {len(job.occurrences)}")
 
         if detail_level >= DetailLevel.FULL.value:
             for occurrence in job.occurrences:
-                print("\t\t" + _stringize_datetime(occurrence))
+                _print("\t\t" + _stringize_datetime(occurrence))
