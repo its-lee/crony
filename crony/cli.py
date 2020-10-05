@@ -8,8 +8,6 @@ import crony.manifest
 import crony.args
 
 # TODO: test all options, all usages
-# TODO: code style (black?) + badge
-# TODO: Address all TODO-s
 # TODO: make official release and update README installation section
 
 _logger = logging.getLogger(__name__)
