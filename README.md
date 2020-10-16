@@ -29,7 +29,7 @@ pipx uninstall crony && pipx install "git+https://github.com/Cygnut/crony.git@ma
              [--file | --user] [--include-disabled] [--exclude-header] [--only-command]
              [--d | --dd]
 
-    A simple CLI program for analysing crontabs.
+    A simple command line program for reporting on crontab job schedules in a provided datetime interval.
 
     optional arguments:
       -h, --help              show this help message and exit
