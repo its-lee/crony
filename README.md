@@ -17,10 +17,13 @@ Helpful in the following scenarios:
 ## Installation
 pipx is recommended to install crony (https://pipxproject.github.io/pipx/installation/).
 
-For now (until there's an official release), you can install via:
-```
-pipx uninstall crony && pipx install "git+https://github.com/Cygnut/crony.git@master"
-```
+To install a specific version:
+
+    pipx uninstall crony && pipx install "git+https://github.com/Cygnut/crony.git@v1.0.0" 
+
+To install directly from master (not advised):
+
+    pipx uninstall crony && pipx install "git+https://github.com/Cygnut/crony.git@master"
 
 ## Usage
 
