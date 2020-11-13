@@ -34,7 +34,7 @@ def _parse_crontab(file=None, user=None, tab=None, **kwargs):
     elif user:  # pragma: no cover
         return (f"user:{user}", CronTab(user=user))
     elif tab:
-        return ("stdin", CronTab(tab=tab))
+        return ("-", CronTab(tab=tab))
     else:   # pragma: no cover
         # In the case of none of them being passed, we default to the current user.
         return ("user:current", CronTab(user=True))
