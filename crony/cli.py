@@ -7,10 +7,6 @@ import crony.core
 import crony.manifest
 import crony.args
 
-# TODO: Release automation (start by documenting the steps required)
-# TODO: test all options, all usages
-# TODO: make official release and update README installation section
-
 _logger = logging.getLogger(__name__)
 
 def _init_logging():
