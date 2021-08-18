@@ -7,9 +7,9 @@ from crontab import CronTab
 
 _logger = logging.getLogger(__name__)
 
+
 class JobOccurrences:
-    """The representation of a cronjob which has occurred in a period of interest.
-    """
+    """The representation of a cronjob which has occurred in a period of interest."""
 
     def __init__(self, job, occurrences):
         """Initialiser
@@ -50,6 +50,7 @@ class JobOccurrences:
         # way to deal with it.
         return self.job.render()
 
+
 def _get_occurrences(job, begin, end):
     """Yield all occurrences between a begin and end datetime for a job
 
@@ -69,7 +70,10 @@ def _get_occurrences(job, begin, end):
             break
         yield occurrence
 
-def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=True, **kwargs):
+
+def get_job_occurrences(
+    crontab=None, begin=None, end=None, include_disabled=True, **kwargs
+):
     """Find crontab jobs scheduled within the given time range
 
     Args:
@@ -83,11 +87,13 @@ def get_job_occurrences(crontab=None, begin=None, end=None, include_disabled=Tru
         given time range
     """
     # 'Hacky' treatment to ensure that the passed minute is included in the schedule
-    # if it were to match a crontab - python-crontab seems to not include it! 
+    # if it were to match a crontab - python-crontab seems to not include it!
     # E.g. if the begin time = 00:00:00 and end = 00:01:00 and the crontab is * * * * *
     # you'd only get the second minute as being in the schedule.
     #   We'll try to be as safe as possible about this to avoid weird datetimes..
-    begin = datetime.datetime(begin.year, begin.month, begin.day, begin.hour, begin.minute, 0, 0)
+    begin = datetime.datetime(
+        begin.year, begin.month, begin.day, begin.hour, begin.minute, 0, 0
+    )
     begin -= datetime.timedelta(seconds=1)
 
     for job in crontab:

@@ -16,18 +16,18 @@ _NOW = datetime.now()
 
 _DEFAULT_LOG_LEVEL = "ERROR"
 
-_LOG_LEVELS = LevelledOption("v", [
-    "WARNING",
-    "INFO",
-    "DEBUG"
-], default=_DEFAULT_LOG_LEVEL)
+_LOG_LEVELS = LevelledOption(
+    "v", ["WARNING", "INFO", "DEBUG"], default=_DEFAULT_LOG_LEVEL
+)
 
 _DEFAULT_DETAIL_LEVEL = crony.core.DetailLevel.NONE
 
-_DETAIL_LEVELS = LevelledOption("d", [
-    crony.core.DetailLevel.COUNT.name,
-    crony.core.DetailLevel.FULL.name
-], default=_DEFAULT_DETAIL_LEVEL.name)
+_DETAIL_LEVELS = LevelledOption(
+    "d",
+    [crony.core.DetailLevel.COUNT.name, crony.core.DetailLevel.FULL.name],
+    default=_DEFAULT_DETAIL_LEVEL.name,
+)
+
 
 def _valid_datetime(s):
     """Convert an argparse arg to a datetime.
@@ -88,9 +88,7 @@ def _valid_datetime(s):
         #     self._try_dateutil_parser,
         #     self._try_hardcoded_formats,
         # ):
-        dt = dateparser.parse(s, date_formats=[
-            crony.core.DEFAULT_DATE_FORMAT
-        ])
+        dt = dateparser.parse(s, date_formats=[crony.core.DEFAULT_DATE_FORMAT])
         if not dt:
             raise ValueError("The following could not be parsed to a datetime: '{s}'.")
         return dt
@@ -99,17 +97,20 @@ def _valid_datetime(s):
         _logger.exception(message)
         raise argparse.ArgumentTypeError(message)
 
+
 def _add_begin_end_argument(parser, begin_end):
-    help_ = ("the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted"
-        .format(begin_end=begin_end))
+    help_ = "the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted".format(
+        begin_end=begin_end
+    )
 
     parser.add_argument(
         f"--{begin_end}",
         default=_NOW,
         type=_valid_datetime,
         metavar="\b",
-        help=help_.format(type=type)
+        help=help_.format(type=type),
     )
+
 
 def _reinterpret_args(args):
     """Reinterpret program args in edge cases as a different set of args.
@@ -121,15 +122,16 @@ def _reinterpret_args(args):
         args (list): The passed args in the case that we expect them to be passed programmatically
         rather than automatically fetched from the terminal.
     """
-    if args is None:    # pragma: no cover
+    if args is None:  # pragma: no cover
         # We can't capture this in unit testing, as it causes the program to exit.
         # The caller has instructed us to look at argv, so let's do so.
         if len(sys.argv) == 1:
             sys.argv.append("-h")
     else:
-        args = args if args else [ "-h" ]
+        args = args if args else ["-h"]
 
     return args
+
 
 def parse(args=None):
     """Parse program args
@@ -150,16 +152,14 @@ def parse(args=None):
 
     # Version output:
     parser.add_argument(
-        "--version", "-V",
+        "--version",
+        "-V",
         action="version",
-        version=f"{crony.manifest.pkgname}@{crony.manifest.version}"
+        version=f"{crony.manifest.pkgname}@{crony.manifest.version}",
     )
 
     # Logging options:
-    _LOG_LEVELS.add_to_parser(
-        parser,
-        "log at the {level} level"
-    )
+    _LOG_LEVELS.add_to_parser(parser, "log at the {level} level")
 
     # Datetime range:
     _add_begin_end_argument(parser, "begin")
@@ -169,40 +169,38 @@ def parse(args=None):
     crontab_group = parser.add_mutually_exclusive_group()
 
     crontab_group.add_argument(
-        "--file",
-        metavar="\b",
-        help="the path to a crontab to be analysed"
+        "--file", metavar="\b", help="the path to a crontab to be analysed"
     )
 
     crontab_group.add_argument(
-        "--user",
-        metavar="\b",
-        help="the user whose crontab is to be analysed"
+        "--user", metavar="\b", help="the user whose crontab is to be analysed"
     )
 
     # Disabled options:
     parser.add_argument(
-        "--include-disabled", "-i",
+        "--include-disabled",
+        "-i",
         action="store_true",
-        help="also include disabled cron jobs"
+        help="also include disabled cron jobs",
     )
 
     # Output options:
     parser.add_argument(
-        "--exclude-header", "-x",
+        "--exclude-header",
+        "-x",
         action="store_true",
-        help="exclude the header from the output"
+        help="exclude the header from the output",
     )
 
     parser.add_argument(
-        "--only-command", "-c",
+        "--only-command",
+        "-c",
         action="store_true",
-        help="only show the command, not the full line"
+        help="only show the command, not the full line",
     )
 
     _DETAIL_LEVELS.add_to_parser(
-        parser,
-        "output with the level of detail set to: {level}"
+        parser, "output with the level of detail set to: {level}"
     )
 
     # Get argparse to do its parsing:

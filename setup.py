@@ -9,8 +9,10 @@ from setuptools import setup, find_packages
 #   - https://github.com/samgiles/slumber
 #   - https://github.com/kiorky/croniter
 
+
 def read(file):
     return open(file).read()
+
 
 def requires(file):
     return [
@@ -18,6 +20,7 @@ def requires(file):
         for a in read(f"requirements/{file}.txt").splitlines()
         if a.strip() and not a.startswith(("#", "-"))
     ]
+
 
 exec(read("./crony/manifest.py"))
 manifest = locals()
@@ -43,12 +46,8 @@ setup(
     python_requires=">=3.6",
     install_requires=requires("install"),
     tests_require=requires("test"),
-    entry_points={
-        "console_scripts": [
-            "crony = crony.cli:main"
-        ]
-    },
+    entry_points={"console_scripts": ["crony = crony.cli:main"]},
     # Required for MANIFEST.in to also install e.g. README.md for use in the long_description.
     include_package_data=True,
-    test_suite="tests"
+    test_suite="tests",
 )

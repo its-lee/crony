@@ -9,19 +9,19 @@ import crony.args
 
 _logger = logging.getLogger(__name__)
 
+
 def _init_logging():
-    """Initialise logging
-    """
+    """Initialise logging"""
     # Set up the stderr log handler:
     handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter(
-        "%(asctime)s | %(name)25s | %(levelname)5s | %(message)s"
-    ))
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s | %(name)25s | %(levelname)5s | %(message)s")
+    )
     logging.getLogger().addHandler(handler)
 
+
 def main(args=None):
-    """The application entry point
-    """
+    """The application entry point"""
     try:
         _init_logging()
 
@@ -33,11 +33,12 @@ def main(args=None):
         # Run the main program
         crony.core.run(**parsed_args)
 
-    except KeyboardInterrupt:   # pragma: no cover
+    except KeyboardInterrupt:  # pragma: no cover
         sys.exit(0)
-    except Exception:   # pragma: no cover
+    except Exception:  # pragma: no cover
         _logger.exception("An error has been encountered:")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()  # pragma: no cover

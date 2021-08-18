@@ -1,5 +1,6 @@
 import sys
 
+
 class LevelledOption:
     """Helper class to implement an argparse arguments which can have logically incrementing levels
     of effect.
@@ -21,9 +22,7 @@ class LevelledOption:
             values (iterable): The incrementing values taken for each additional char used at the CLI
             default (any): The fallback value when parsing if no relevant option has been passed
         """
-        self.levels = {
-            char * (i + 1): v for i, v in enumerate(values)
-        }
+        self.levels = {char * (i + 1): v for i, v in enumerate(values)}
         self.default = default
 
     def add_to_parser(self, parser, help_format):
@@ -40,7 +39,7 @@ class LevelledOption:
                 f"--{k}",
                 default="",
                 action="store_true",
-                help=help_format.format(level=v.lower())
+                help=help_format.format(level=v.lower()),
             )
 
     def parse(self, pargs):

@@ -13,10 +13,12 @@ _logger = logging.getLogger(__name__)
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
+
 class DetailLevel(Enum):
     NONE = 0
     COUNT = 1
     FULL = 2
+
 
 def _parse_crontab(file=None, user=None, tab=None, **kwargs):
     """Parse crontab-related args
@@ -35,9 +37,10 @@ def _parse_crontab(file=None, user=None, tab=None, **kwargs):
         return (f"user:{user}", CronTab(user=user))
     elif tab:
         return ("-", CronTab(tab=tab))
-    else:   # pragma: no cover
+    else:  # pragma: no cover
         # In the case of none of them being passed, we default to the current user.
         return ("user:current", CronTab(user=True))
+
 
 def _stringize_datetime(dt):
     """Convert a datetime to the default format used
@@ -49,6 +52,7 @@ def _stringize_datetime(dt):
         str: The formatted datetime
     """
     return dt.strftime(DEFAULT_DATE_FORMAT)
+
 
 def _build_header(source=None, begin=None, end=None, **kwargs):
     """Build the header
@@ -93,7 +97,7 @@ def run(stream=sys.stdout, **kwargs):
         # Print the command / whole line based on provided options
         _print(job.command if kwargs["only_command"] else job.line)
 
-        # Also supply any other configured detail:
+        # Also supply any other configured detail:
         if detail_level >= DetailLevel.COUNT.value:
             _print(f"\tOccurrences: {len(job.occurrences)}")
 
