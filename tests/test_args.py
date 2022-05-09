@@ -22,12 +22,24 @@ class ArgsTest(unittest.TestCase):
                 {"begin": datetime.datetime(2020, 1, 2, 1, 23, 45, 0)},
             ),
             param(
+                "b",
+                ['-b"2020-01-02 01:23:45"'],
+                {"begin": datetime.datetime(2020, 1, 2, 1, 23, 45, 0)},
+            ),
+            param(
                 "end",
                 ['--end="2019-02-03 02:34:56"'],
                 {"end": datetime.datetime(2019, 2, 3, 2, 34, 56, 0)},
             ),
+            param(
+                "e",
+                ['-e"2019-02-03 02:34:56"'],
+                {"end": datetime.datetime(2019, 2, 3, 2, 34, 56, 0)},
+            ),
             param("file", ["--file=/usr/dog/crontab"], {"file": "/usr/dog/crontab"}),
+            param("f", ["-f/usr/dog/crontab"], {"file": "/usr/dog/crontab"}),
             param("user", ["--user=dog"], {"user": "dog"}),
+            param("u", ["-udog"], {"user": "dog"}),
             param(
                 "include-disabled", ["--include-disabled"], {"include_disabled": True}
             ),

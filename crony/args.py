@@ -98,12 +98,13 @@ def _valid_datetime(s):
         raise argparse.ArgumentTypeError(message)
 
 
-def _add_begin_end_argument(parser, begin_end):
+def _add_begin_end_argument(parser, begin_end, begin_end_short):
     help_ = "the datetime to {begin_end} at, defaults to the current datetime. The preferred format is (YYYY-MM-DD HH:MM:SS), however - other relative and absolute formats are permitted".format(
         begin_end=begin_end
     )
 
     parser.add_argument(
+        f"-{begin_end_short}",
         f"--{begin_end}",
         default=_NOW,
         type=_valid_datetime,
@@ -146,10 +147,6 @@ def parse(args=None):
 
     parser = argparse.ArgumentParser(description=crony.manifest.description)
 
-    # Our rule of thumb is to only use single char options (e.g. -V) for:
-    #   - boolean switches (e.g. --include-disabled, -i)
-    #   - actions (e.g. -V to show the version)
-
     # Version output:
     parser.add_argument(
         "--version",
@@ -162,18 +159,18 @@ def parse(args=None):
     _LOG_LEVELS.add_to_parser(parser, "log at the {level} level")
 
     # Datetime range:
-    _add_begin_end_argument(parser, "begin")
-    _add_begin_end_argument(parser, "end")
+    _add_begin_end_argument(parser, "begin", "b")
+    _add_begin_end_argument(parser, "end", "e")
 
     # Crontab reference - only allow 0 or 1 to remove any ambiguity:
     crontab_group = parser.add_mutually_exclusive_group()
 
     crontab_group.add_argument(
-        "--file", metavar="\b", help="the path to a crontab to be analysed"
+        "-f", "--file", metavar="\b", help="the path to a crontab to be analysed"
     )
 
     crontab_group.add_argument(
-        "--user", metavar="\b", help="the user whose crontab is to be analysed"
+        "-u", "--user", metavar="\b", help="the user whose crontab is to be analysed"
     )
 
     # Disabled options:
