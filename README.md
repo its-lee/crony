@@ -59,8 +59,7 @@ To install directly from master (not advised):
       -e, --end               the datetime to end at, defaults to the
                               current datetime. The preferred format is 
                               (YYYY-MM-DD HH:MM:SS), however - other relative 
-                              and absolute
-                              formats are permitted
+                              and absolute formats are permitted
       -f, --file              the path to a crontab to be analysed
       -u, --user              the user whose crontab is to be analysed
       --include-disabled, -i  also include disabled cron jobs
