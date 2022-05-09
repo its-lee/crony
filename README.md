@@ -16,15 +16,28 @@ Helpful in the following scenarios:
 </p>
 
 ## Installation
+
+### pipx
 pipx is recommended to install crony (https://pipxproject.github.io/pipx/installation/).
 
 To install a specific version:
 
-    pipx uninstall crony; pipx install "git+https://github.com/Cygnut/crony.git@v1.0.2"
+    pipx uninstall crony; pipx install "git+https://github.com/Cygnut/crony.git@v1.1.0"
 
 To install directly from master (not advised):
 
     pipx uninstall crony; pipx install "git+https://github.com/Cygnut/crony.git@master"
+
+### pip
+Alternatively, please use the pip module of python:
+
+To install a specific version:
+
+    python3 -m pip install "git+https://github.com/Cygnut/crony.git@v1.1.0"
+
+To install directly from master (not advised):
+
+    python3 -m pip install "git+https://github.com/Cygnut/crony.git@v1.1.0"
 
 ## Usage
 
