@@ -22,7 +22,7 @@ pipx is recommended to install crony (https://pipxproject.github.io/pipx/install
 
 To install a specific version:
 
-    pipx uninstall crony; pipx install "git+https://github.com/Cygnut/crony.git@v1.1.0"
+    pipx uninstall crony; pipx install "git+https://github.com/Cygnut/crony.git@{version tag here}"
 
 To install directly from master (not advised):
 
@@ -33,11 +33,11 @@ Alternatively, please use the pip module of python:
 
 To install a specific version:
 
-    python3 -m pip install "git+https://github.com/Cygnut/crony.git@v1.1.0"
+    python3 -m pip install "git+https://github.com/Cygnut/crony.git@{version tag here}"
 
 To install directly from master (not advised):
 
-    python3 -m pip install "git+https://github.com/Cygnut/crony.git@v1.1.0"
+    python3 -m pip install "git+https://github.com/Cygnut/crony.git@master"
 
 ## Usage
 
